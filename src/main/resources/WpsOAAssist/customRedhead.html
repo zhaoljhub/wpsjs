@@ -1,0 +1,112 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>套用红头</title>
+    <script type="text/javascript" src='js/main.js'></script>
+    <style>
+        .u-input {
+            line-height: 28px;
+            padding: 0 9px;
+            display: block;
+            float: left;
+            border-radius: 3px;
+            border-style: solid;
+            border-width: 1px;
+            outline: none;
+            position: relative;
+            background-color: #fff;
+            color: #333;
+            border-color: #d1d1d1;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="search">
+    <span>关键词：</span>
+    <input id="content" type="text" style="width:245px">
+    <button type="button" onClick="search()">查询</button>
+    <br/>
+    <br/>
+</div>
+<select id="templates" size=10 style='width:360px' class="u-input">
+    <!--这里ajax动态拉取。-->
+</select>
+<br/>
+<br/>
+<button type="button" onClick="selectTemplate()">套红头</button>
+</body>
+
+</html>
+
+<script>
+
+    $(function () {
+        loadTemplates();
+    });
+
+    function loadTemplates(url) {
+        var doc = wps.WpsApplication().ActiveDocument;
+        if (!url) {
+            url = GetDocParamsValue(doc, constStrEnum.customRedFileListUrl).format({search: ""});
+        }
+        if (!isHttpUrl(url)) {
+            alert("参数为空！");
+            return;
+        }
+        $.get(url, function (data) {
+            var json = JSON.parse(data);
+            console.log("请查看控制台返回打印参数：" + data);
+            if (json instanceof Array) {
+                for (var i = 0; i < json.length; i++) {
+                    var element = json[i]
+                    var myOption = document.createElement("option"); //动态创建option标签
+                    myOption.value = element.id; //红头文档id
+                    myOption.text = element.name; //红头文档名称
+                    myOption.setAttribute("url", element.url);
+                    $("#templates").append(myOption);
+                }
+            }
+        });
+    }
+
+    function search() {
+        $("#templates").empty();
+        var doc = wps.WpsApplication().ActiveDocument;
+        loadTemplates(GetDocParamsValue(doc, constStrEnum.customRedFileListUrl).format({search: document.getElementById("content").value}));
+    }
+
+
+    function selectTemplate() {
+        var wpsApp = wps.WpsApplication();
+        var obj = document.getElementById("templates");
+        var index = obj.selectedIndex;
+        if (index == -1) { //添加未选中数据时的异常处理
+            alert("请先选择红头文件后再进行套红头！");
+            return;
+        }
+        var redId = obj.options[index].getAttribute("value");
+        var url = obj.options[index].getAttribute("url");
+        var activeDoc = wpsApp.ActiveDocument;
+        var path = "";
+        if (url == null || url == "") {
+            var base = GetDocParamsValue(wps.WpsApplication().ActiveDocument, constStrEnum.customRedFileBaseUrl);
+            path = base.format({id: redId});
+        } else {
+            path = url;
+        }
+        if (!isHttpUrl(path)) { //未配置则模拟服务端返回
+            alert("未配置请求参数,或者列表未返回url！");
+            return;
+        }
+        SetDocParamsValue(activeDoc, constStrEnum.customRedFileUrl, path);
+        customWpsRedFile(activeDoc);
+        window.opener = null;
+        window.open('', '_self', '');
+        window.close();
+    }
+
+
+</script>

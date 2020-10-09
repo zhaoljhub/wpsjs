@@ -1,0 +1,20 @@
+server:
+  port: 8080
+  #tomcat:
+  #uri-encoding: UTF-8
+  tomcat:
+    accesslog:
+      enabled: true
+    basedir: /wpsjs-log/
+spring:
+  thymeleaf:
+    cache: false #是否使用缓存 实现热部署
+    enabled: true #开启thymeleaf视图解析
+    prefix: classpath:/templates/  #前缀
+    mode: HTML  #严格的HTML语法模式
+    suffix: .html  #后缀名
+management:
+  endpoint:
+    web:
+      exposure:
+        include:httptrace # 访问路径 /acutator/httptrace
