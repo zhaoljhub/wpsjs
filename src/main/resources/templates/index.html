@@ -38,6 +38,7 @@
         <p></p>
         <a id="newDoc" href="javascript:void(0)">新建文件</a>
         <a id="editDoc" href="javascript:void(0)">编辑文件</a>
+        <a id="editDocAuto" href="javascript:void(0)">编辑文件自定义保存url</a>
         <a id="editWithCloseButtonDoc" href="javascript:void(0)">编辑文件并关闭部分按钮</a><br>
         <a id="editDocWithExit" href="javascript:void(0)">编辑保存并退出wps</a>
         <a id="viewDoc" href="javascript:void(0)">查看文件</a>
@@ -104,6 +105,10 @@
         $("#editDoc").on("click", function () {
             code(editWps);
             editWps();
+        });
+        $("#editDocAuto").on("click", function () {
+            code(editWpsAuto);
+            editWpsAuto();
         });
         $("#editDocWithExit").on("click", function () {
             code(editDocWithExit);
@@ -190,6 +195,40 @@
             buttonGroups: wpsApi.defineWpsButtonGroups.btnChangeToPDF, //打开哪些按钮，默认全部关闭
             openRevision: true, // 是够显示痕迹
             saveSuffix: "ofd", //上传文件时以ofd的方式保存
+            saveCallback: function (message) {
+                $("#webnotifyspan").text("保存之后回调：" + new Date() + JSON.stringify(message));
+            }, //保存成功的回调函数
+            openCallback: function (result) {
+                $("#webnotifyspan").text("编辑回传：" + JSON.stringify(result));
+            } // 打开wps之后回传
+        }).edit();
+    }
+
+    function editWpsAuto() {
+        var saveUrl = function (operationId, customExtend) {
+            var saveFile = customExtend.fileUploadPath;
+            if (operationId == "btnChangeToPDF" || operationId == "btnChangeToOFD" || operationId == "btnChangeToUOT") {
+                return encodeURI(saveFile.format({fileId: customExtend.docId, fileevent: "vvvv"}));
+            } else if (operationId == "redFile") {
+                return encodeURI(saveFile.format({fileId: customExtend.docId, fileevent: "aaa"}));
+            } else if (operationId == "edit") {
+                return encodeURI(saveFile.format({fileId: customExtend.docId, fileevent: "proxyFile"}));
+            } else {
+                return encodeURI(saveFile.format({fileId: customExtend.docId, fileevent: ""}));
+            }
+        }
+
+        wpsApi.wps({
+            docId: "123",
+            userName: "测试人员",
+            fileUploadPath: saveUrl, // 文件上载地址
+            fileLoadPath: "http://127.0.0.1:8080/wpsJs/getFile/test.docx",  // 文件加载地址，不传就是新建文件
+            autoSaveToServer: false, // 是否开启自动保存文件功能
+            buttonGroups: wpsApi.defineWpsButtonGroups.btnChangeToPDF, //打开哪些按钮，默认全部关闭
+            // 用户自己处理时用的对象
+            customExtend: {
+                fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test?fileId={docId}", docId: "123",
+            },
             saveCallback: function (message) {
                 $("#webnotifyspan").text("保存之后回调：" + new Date() + JSON.stringify(message));
             }, //保存成功的回调函数

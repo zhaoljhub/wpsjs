@@ -129,7 +129,7 @@ function pShowRibbonGroupByOADocParam(CtrlID) {
  */
 function OnUploadToServerSuccess(resp) {
     var l_doc = wps.WppApplication().ActivePresentation;
-    if (wps.confirm("文件上传成功！继续编辑请确认，取消关闭文档。") == false) {
+    if (wps.confirm("正文保存成功，是否关闭正文信息。") == false) {
         if (l_doc) {
             console.log("OnUploadToServerSuccess: before Close");
             l_doc.Close(); //保存文档后关闭

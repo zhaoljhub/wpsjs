@@ -22,10 +22,15 @@ function dispatcher(info) {
     var message = {
         message: "success",
     };
+
     for (var index = 0; index < funcs.length; index++) {
         testFuncs = funcs;
         var func = funcs[index];
         for (var key in func) {
+            // todo-12 , dispatcher启动前执行的方法
+            if (func[key].dispatcherPrefixFunction && func[key].dispatcherPrefixFunction.startWith("function")) {
+                exeFun(func[key].dispatcherPrefixFunction, key , func[key]);
+            }
             if (key === "OpenDoc") { // OpenDoc 属于普通的打开文档的操作方式，文档落地操作
                 OpenDoc(func[key]); //进入打开文档处理函数
             } else if (key === "OnlineEditDoc") { //在线方式打开文档，属于文档不落地的方式打开
@@ -44,9 +49,9 @@ function dispatcher(info) {
                 message.info = GetDocStatus(func[key]);
             } else if (key === "NewOfficialDocument") {
                 return OpenDoc(func[key])
-            }else if(key == "openPdf"){ // todo-8 添加打开pdf文件
+            } else if (key == "openPdf") { // todo-8 添加打开pdf文件
                 return openPdf(func[key])
-            }else if(key == "ReplaceDoc"){
+            } else if (key == "ReplaceDoc") {
                 return OpenDoc(func[key])
             }
             message.operation = key;

@@ -303,6 +303,10 @@ function StringToUint8Array(string) {
  */
 function DownloadFile(url, callback) {
     var xhr = new XMLHttpRequest();
+    /*// todo-12
+    if (url.startWith("function")) {
+        url = exeFun(url, "downloadFile", wpsCommon.getDocParameter(constStrEnum.customExtend));
+    }*/
     //xhr.setRequestHeader('Cookie' , "")
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -336,6 +340,10 @@ function DownloadFile(url, callback) {
  */
 function UploadFile(strFileName, strPath, uploadPath, strFieldName, OnSuccess, OnFail) {
     var xhr = new XMLHttpRequest();
+    // todo-10
+    if (uploadPath.startWith("function")) {
+        uploadPath = exeFun(uploadPath, wpsCommon.getDocParameter(constStrEnum.actionId), wpsCommon.getDocParameter(constStrEnum.customExtend));
+    }
     xhr.open('POST', uploadPath);
     var fileData = wps.FileSystem.readAsBinaryString(strPath);
     var data = new FakeFormData();

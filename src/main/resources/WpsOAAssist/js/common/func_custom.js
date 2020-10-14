@@ -9,9 +9,6 @@ function notifyMessage(info, state) {
     }))
 }
 
-function alertInfo() {
-
-}
 
 // 直接套红和套模板方法
 function customWpsRedFile(doc) {
@@ -42,7 +39,6 @@ function customInsertRedFile(doc, strFile, bookmark) {
         alert("当前文档已套过红头，请勿重复操作!");
         return;
     }
-
     var wpsApp = wps.WpsApplication();
     var activeDoc = wpsApp.ActiveDocument;
     var selection = wpsApp.ActiveWindow.Selection;

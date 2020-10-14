@@ -53,7 +53,8 @@ function pInitParameters() {
     wps.PluginStorage.setItem(constStrEnum.IsInCurrOADocOpen, false); //用于执行来自OA端的新建或打开文档时的状态
     wps.PluginStorage.setItem(constStrEnum.IsInCurrOADocSaveAs, false); //用于执行来自OA端的文档另存为本地的状态
     wps.PluginStorage.setItem(constStrEnum.RevisionEnableFlag, false) //按钮的标记控制
-    wps.PluginStorage.setItem(constStrEnum.Save2OAShowConfirm, true); //弹出上传成功后的提示信息
+    // todo-9 关闭保存提示框
+    wps.PluginStorage.setItem(constStrEnum.Save2OAShowConfirm, false); //弹出上传成功后的提示信息
 }
 
 //挂载WPS的文档事件
@@ -641,21 +642,21 @@ function OnUploadToServerSuccess(resp) {
     console.log("成功上传服务端后的回调：" + resp)
     var l_doc = wps.WpsApplication().ActiveDocument;
     var l_showConfirm = wps.PluginStorage.getItem(constStrEnum.Save2OAShowConfirm);
-    if (l_showConfirm) {
-        //if (wps.confirm("文件上传成功！继续编辑请确认，取消关闭文档。") == false) {
-        // 如果有其他的格式保存操作，则这里不提示
-        var l_suffix = GetDocParamsValue(l_doc, constStrEnum.suffix);
-        if (l_suffix == "") {
-            if (wps.confirm("文件上传成功！点击确认关闭，取消继续编辑。")) {
-                if (l_doc) {
-                    //console.log("OnUploadToServerSuccess: before Close");
-                    l_doc.Close(-1); //保存文档后关闭
-                    //console.log("OnUploadToServerSuccess: after Close");
-                    SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, true);
-                }
+    //if (l_showConfirm) {
+    //if (wps.confirm("正文保存成功，是否关闭正文信息。") == false) {
+    // 如果有其他的格式保存操作，则这里不提示
+    var l_suffix = GetDocParamsValue(l_doc, constStrEnum.suffix);
+    if (l_suffix == "") {
+        if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
+            if (l_doc) {
+                //console.log("OnUploadToServerSuccess: before Close");
+                l_doc.Close(-1); //保存文档后关闭
+                //console.log("OnUploadToServerSuccess: after Close");
+                SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, true);
             }
         }
     }
+    //}
 
     var l_NofityURL = GetDocParamsValue(l_doc, constStrEnum.notifyUrl);
     if (l_NofityURL != "") {
@@ -920,6 +921,8 @@ function OnAction(control) {
     } else if (typeof control == "number" && arguments.length > 1) { //针对combox的
         eleId = arguments[2].Id;
     }
+    // todo-11 记录当前操作的事件id,所有按钮事件应该都会走这里，
+    wpsCommon.setDocParameter(constStrEnum.actionId, eleId);
     switch (eleId) {
         case "btnOpenWPSYUN": //打开WPS云文档入口
             pDoOpenWPSCloundDoc();
@@ -931,7 +934,8 @@ function OnAction(control) {
             OnbtnTabClick();
             break;
         case "btnSaveToServer": //保存到OA服务器
-            wps.PluginStorage.setItem(constStrEnum.Save2OAShowConfirm, true)
+            // todo-9 关闭保存提示框
+            wps.PluginStorage.setItem(constStrEnum.Save2OAShowConfirm, false)
             OnBtnSaveToServer();
             break;
         case "btnSaveAsFile": //另存为本地文件

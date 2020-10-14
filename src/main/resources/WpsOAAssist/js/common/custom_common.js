@@ -27,3 +27,41 @@ String.prototype.format = function () {
     }
     return s;
 };
+
+// 将传输的字符串函数当方法。
+function exeFun(funStr, operationId, customExtend) {
+    funStr = "return " + funStr;
+    var jsCode = new Function(funStr)();
+    var value = jsCode(operationId, customExtend);
+    return value;
+}
+
+var wpsCommon = {
+    // 获取来自浏览器的参数 ,代替GetDocParamsValue()方法。
+    getActiveDoc: function () {
+        return wps.WpsApplication().ActiveDocument;
+    },
+
+    getDocAllParameter: function () {
+        return JSON.parse(wps.PluginStorage.getItem(this.getActiveDoc().DocID));
+    },
+
+    getDocParameter: function (type) {
+        var json = this.getDocAllParameter();
+        if (type && type == "all") {
+            return json;
+        } else {
+            json = json[type];
+            return json || "";
+        }
+    },
+
+    setDocParameter: function (key, value) {
+        var json = this.getDocAllParameter();
+        if (json) {
+            json[key] = value;
+        }
+        //把属性值整体再写回原来的文档ID中
+        wps.PluginStorage.setItem(this.getActiveDoc().DocID, JSON.stringify(json));
+    }
+}

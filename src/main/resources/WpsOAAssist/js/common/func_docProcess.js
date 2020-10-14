@@ -566,7 +566,7 @@ function OnChangeSuffixUploadSuccess(response) {
     var l_doc = wps.WpsApplication().ActiveDocument;
     var prompt = GetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt);
     if (!prompt) {
-        if (wps.confirm("文件上传成功！点击确认关闭，取消继续编辑。")) {
+        if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
             if (l_doc) {
                 l_doc.Close(-1); //保存文档后关闭
                 SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, false);

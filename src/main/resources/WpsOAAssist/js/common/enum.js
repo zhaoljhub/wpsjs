@@ -113,21 +113,27 @@ var constStrEnum = {
      */
     RevisionEnableFlag: "RevisionEnableFlag",
 
+
     /**
      * 自定义套红头或者套模板
      */
-    customRedFileUrl : "customRedFileUrl",
+    customRedFileUrl: "customRedFileUrl",
     // 模板替换字段
-    repFileElement : "repFileElement",
+    repFileElement: "repFileElement",
     // 自定义查询红头列表
-    customRedFileListUrl : "customRedFileListUrl",
-    customRedFileBaseUrl : "customRedFileBaseUrl",
+    customRedFileListUrl: "customRedFileListUrl",
+    customRedFileBaseUrl: "customRedFileBaseUrl",
     // 是否启用自动保存文档功能
-    autoSaveToServer : "autoSaveToServer",
-    customRepJsonDataUrl : "customRepJsonDataUrl",
+    autoSaveToServer: "autoSaveToServer",
+    customRepJsonDataUrl: "customRepJsonDataUrl",
     // 方法类型
-    methodType : "methodType",
-
+    methodType: "methodType",
     // 文件改变格式上传是否需要提示
-    unShowFileTypeChangePrompt : "unShowFileTypeChangePrompt"
+    unShowFileTypeChangePrompt: "unShowFileTypeChangePrompt",
+    // 前端传输的自定义参数
+    customExtend: "customExtend",
+    // 当前执行的按钮或事件的标识位值
+    actionId: "actionId",
+    // dispatcher启动前执行的方法
+    dispatcherPrefixFunction : "dispatcherPrefixFunction",
 }

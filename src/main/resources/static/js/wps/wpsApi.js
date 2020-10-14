@@ -534,6 +534,10 @@
 
         // token = {tokenName : jwtToken , tokenValue : aaaaaadadadadasd}
         this.token = options.token;
+        this.dispatcherPrefixFunction = options.dispatcherPrefixFunction || null;
+
+        //用户自定义数据
+        this.customExtend = options.customExtend;
 
         this.add = function () {
             var me = this;
@@ -629,8 +633,9 @@
             var me = this, info = {};
             me.addToken();
             var params = {
-                uploadPath: me.fileUploadPath, userName: me.userName,
+                uploadPath: me.fileUploadPath.toString(), userName: me.userName,
                 uploadFieldName: me.uploadFieldName, buttonGroups: me.buttonGroups,
+                customExtend: me.customExtend, dispatcherPrefixFunction: me.dispatcherPrefixFunction.toString(),
             };
             // 打开关闭修订
             params.revisionCtrl = {bOpenRevision: me.openRevision, bShowRevision: me.openRevision};
@@ -645,11 +650,11 @@
             var type = me.methodType;
             params.methodType = type;
             // 新增
-            if (me.fileLoadPath == "") {
+            if (type == me.methodTypes.add) {
                 info.funcs = [{NewDoc: params}];
             } else {
                 params.docId = me.docId;
-                params.fileName = me.fileLoadPath;
+                params.fileName = me.fileLoadPath.toString();
                 if (me.customRedFileUrl != null) {
                     params.customRedFileUrl = me.customRedFileUrl;
                     params.bkInsertFile = me.bkInsertFile;
@@ -747,19 +752,22 @@
                 return;
             }
             var data = formatData(me);
-            WpsInvoke.startWps({
-                url: "http://localhost:58890/deployaddons/runParams",
-                sendData: data,
-                callback: function (res) {
-                    if (res.status == 0) {
-                        console.log("配置成功");
-                        me.callback(true, res);
-                    } else {
-                        console.log("wps加载项配置失败");
-                        me.callback(false, res);
+
+            WpsAddonGetAllConfig(function () {
+                WpsInvoke.startWps({
+                    url: "http://localhost:58890/deployaddons/runParams",
+                    sendData: data,
+                    callback: function (res) {
+                        if (res.status == 0) {
+                            console.log("配置成功");
+                            me.callback(true, res);
+                        } else {
+                            console.log("wps加载项配置失败");
+                            me.callback(false, res);
+                        }
                     }
-                }
-            });
+                });
+            })
         }
 
         function formatData(wpsPlugins) {
@@ -780,6 +788,21 @@
             if (WpsInvoke.IEVersion() < 10)
                 eval("strData = '" + JSON.stringify(strData) + "';");
             return WpsInvoke.encode(strData);
+        }
+
+        //先调用publishlist调起wps，唤起wpsoffice得端口
+        function WpsAddonGetAllConfig(callBack) {
+            var baseData;
+            WpsInvoke.startWps({
+                url: "http://127.0.0.1:58890/publishlist",
+                type: "GET",
+                sendData: baseData,
+                callback: callBack,
+                tryCount: 10,
+                bPop: true,
+                timeout: 5000,
+                concurrent: false
+            });
         }
     }
 
