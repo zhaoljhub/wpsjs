@@ -42,12 +42,12 @@ function OnDocumentBeforeSave(doc) {
             wps.ApiEvent.Cancel = true;
         }
         //2.如果是落地打开的OA文档并且通过WPS自身按钮或者快捷键保存，则执行保存到本地临时目录，取消弹出对话框
-        if (pIsOnlineOADoc(doc) == false && l_IsOADocButtonSave == false){
+        if (pIsOnlineOADoc(doc) == false && l_IsOADocButtonSave == false) {
             //用户手动另存为操作时，在这里被屏蔽掉
             doc.Save();
             //如果是OA文档，则禁止另存为
             wps.ApiEvent.Cancel = true;
-        }        
+        }
     }
     //保存文档后，也要刷新一下Ribbon按钮的状态
     showOATab();
@@ -58,7 +58,7 @@ function OnDocumentBeforeSave(doc) {
 //文档保存前关闭事件
 /**
  * 作用：
- * @param {*} doc 
+ * @param {*} doc
  */
 function OnDocumentBeforeClose(doc) {
     console.log('OnDocumentBeforeClose');
@@ -71,7 +71,11 @@ function OnDocumentBeforeClose(doc) {
     //判断是否只读的文档，或受保护的文档，对于只读的文档，不给予保存提示
     if (pISOADocReadOnly(doc) == false) {
         if (doc.Saved == false) { //如果OA文档关闭前，有未保存的数据
-            if (wps.confirm("系统文件有改动，是否提交后关闭？") == false) {
+            /*if (wps.confirm("系统文件有改动，是否提交后关闭？") == false) {
+                wps.ApiEvent.Cancel = true;
+                return;
+            }*/
+            if (wps.confirm("正文信息修改后未保存，是否关闭正文信息？") == false) {
                 wps.ApiEvent.Cancel = true;
                 return;
             }
@@ -165,7 +169,6 @@ function SetCurrDocEnvProp(doc) {
 }
 
 
-
 /*
     入口参数：doc
     功能说明：判断当前文档是否能另存为本地文件
@@ -199,7 +202,7 @@ function pSetWPSAppUserName() {
 /**
  * 作用：文档关闭后，删除对应的PluginStorage内的参数信息
  * 返回值：没有返回值
- * @param {*} doc 
+ * @param {*} doc
  */
 function pRemoveDocParam(doc) {
     if (!doc) return;
@@ -210,7 +213,7 @@ function pRemoveDocParam(doc) {
 /**
  * 作用：判断当前文档是否从OA来的文档，如果非OA文档（就是本地新建或打开的文档，则设置EnumOAFlag 标识）
  * 作用：设置非OA文档的标识状态
- * @param {*} doc 
+ * @param {*} doc
  * 返回值：无
  */
 function pSetNoneOADocFlag(doc) {

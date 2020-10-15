@@ -565,13 +565,18 @@ function pGetValidDocTempPath(doc) {
 function OnChangeSuffixUploadSuccess(response) {
     var l_doc = wps.WpsApplication().ActiveDocument;
     var prompt = GetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt);
-    if (!prompt) {
+    if (prompt) {
         if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
             if (l_doc) {
                 l_doc.Close(-1); //保存文档后关闭
-                SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, false);
+                // 文件保存后，判断是否只是一个文件，一个文件的话就关闭wps
+                //closeWpsIfNoDocument();// 判断WPS中的文件个数是否为0，若为0则关闭WPS函数
+                //SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, false);
             }
         }
+    }
+    if (prompt == "") {
+        wps.confirm("文档转换成功");
     }
     //var l_result = handleResultBody(response);
     // todo-4 注释提示信息

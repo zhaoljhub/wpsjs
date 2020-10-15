@@ -302,7 +302,8 @@ function OnDoChangeToOtherDocFormat(p_FileSuffix, pShowPrompt) {
     if (typeof (pShowPrompt) == "undefined") {
         pShowPrompt = true; //默认设置为弹出用户确认框
     }
-    //默认设置为以当前文件的显示模式输出，即当前为修订则输出带有修订痕迹的
+    //默认设置为以当前文件的显示模式输出，即当前为修订则输出带有修订痕迹的 . unShowFileTypeChangePrompt="",代表转换文件的提示
+    SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, "");
     pDoChangeToOtherDocFormat(l_doc, l_suffix, pShowPrompt, true);
 }
 
@@ -589,6 +590,7 @@ function OnBtnSaveToServer() {
     var l_uploadWithAppendPath = GetDocParamsValue(l_doc, constStrEnum.uploadWithAppendPath); //标识是否同时上传suffix格式的文档
     if (l_uploadWithAppendPath == "1") {
         //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
+        SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, true);
         pDoChangeToOtherDocFormat(l_doc, l_suffix, false, false);
     }
     return;
@@ -646,18 +648,15 @@ function OnUploadToServerSuccess(resp) {
     //if (wps.confirm("正文保存成功，是否关闭正文信息。") == false) {
     // 如果有其他的格式保存操作，则这里不提示
     var l_suffix = GetDocParamsValue(l_doc, constStrEnum.suffix);
-    if (l_suffix == "") {
+    if(!l_suffix){
         if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
             if (l_doc) {
-                //console.log("OnUploadToServerSuccess: before Close");
                 l_doc.Close(-1); //保存文档后关闭
-                //console.log("OnUploadToServerSuccess: after Close");
-                SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, true);
+                // 文件保存后，判断是否只是一个文件，一个文件的话就关闭wps
+                //closeWpsIfNoDocument();// 判断WPS中的文件个数是否为0，若为0则关闭WPS函数
             }
         }
     }
-    //}
-
     var l_NofityURL = GetDocParamsValue(l_doc, constStrEnum.notifyUrl);
     if (l_NofityURL != "") {
         l_NofityURL = l_NofityURL.replace("{?}", "2"); //约定：参数为2则文档被成功上传

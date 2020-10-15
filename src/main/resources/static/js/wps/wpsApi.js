@@ -534,7 +534,7 @@
 
         // token = {tokenName : jwtToken , tokenValue : aaaaaadadadadasd}
         this.token = options.token;
-        this.dispatcherPrefixFunction = options.dispatcherPrefixFunction || null;
+        this.dispatcherPrefixFunction = options.dispatcherPrefixFunction || "";
 
         //用户自定义数据
         this.customExtend = options.customExtend;

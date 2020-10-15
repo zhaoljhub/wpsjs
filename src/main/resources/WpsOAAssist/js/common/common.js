@@ -216,6 +216,8 @@ function closeWpsIfNoDocument() {
     if (!docs || docs.Count == 0) {
         wps.ApiEvent.Cancel = true;
         //根据业务可以选择是否退出进程 wpsApp.Quit();
+        // todo-12 当文件全部关闭时，退出wps ， 这里无法退出，应该是wps还有剩余处理在处理。
+        //wps.WpsApplication().Quit();
     }
 }
 
