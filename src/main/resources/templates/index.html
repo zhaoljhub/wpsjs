@@ -249,7 +249,7 @@
             saveCallback: function (message) {
                 $("#webnotifyspan").text("保存之后回调：" + new Date() + JSON.stringify(message));
                 //保存成功后推出wps
-                wpsObject.exit();  // wpsObject.exit(true) 无提示强制退出
+                wpsObject.exit(true);  // wpsObject.exit(true) 无提示强制退出
             }, //保存成功的回调函数,注意高版本的wps才支持回调，低版本的不支持
             openCallback: function (result) {
                 $("#webnotifyspan").text("编辑回传：" + JSON.stringify(result));

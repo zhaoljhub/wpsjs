@@ -93,7 +93,7 @@ function ExitWPS(force) {
         l_doc.Close();
     }
     // todo-6 修改是否需要提示
-    if (force != "true") {
+    if (!force) {
         if (wps.confirm("要关闭WPS软件，请确认文档都已保存。\n点击确定后关闭WPS，点击取消继续编辑。")) {
             wps.WpsApplication().Quit();
         }
