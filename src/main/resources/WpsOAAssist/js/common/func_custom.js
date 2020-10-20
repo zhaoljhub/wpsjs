@@ -83,6 +83,7 @@ function customInsertRedFile(doc, strFile, bookmark) {
                 eleBookmark.Range.Text = elements[key];
             }
         }
+        wps.WpsApplication().ActiveDocument.ActiveWindow.Selection.HomeKey(6)
     }
     // 恢复修订模式(根据传入参数决定)
     var l_revisionCtrl = GetDocParamsValue(activeDoc, constStrEnum.revisionCtrl);
