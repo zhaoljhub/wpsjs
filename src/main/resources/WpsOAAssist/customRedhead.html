@@ -50,14 +50,23 @@
     function loadTemplates(url) {
         var doc = wps.WpsApplication().ActiveDocument;
         if (!url) {
-            url = GetDocParamsValue(doc, constStrEnum.customRedFileListUrl).format({search: ""});
+            url = GetDocParamsValue(doc, constStrEnum.customRedFileListUrl);
+            if (url.indexOf("search") == -1) {
+                $("#search").hide();
+            } else {
+                url = url.format({search: ""});
+            }
         }
         if (!isHttpUrl(url)) {
             alert("参数为空！");
             return;
         }
         $.get(url, function (data) {
-            var json = JSON.parse(data);
+            if(data instanceof Array){
+                json = data
+            }else{
+                var json = JSON.parse(data);
+            }
             console.log("请查看控制台返回打印参数：" + data);
             if (json instanceof Array) {
                 for (var i = 0; i < json.length; i++) {
@@ -91,7 +100,7 @@
         var url = obj.options[index].getAttribute("url");
         var activeDoc = wpsApp.ActiveDocument;
         var path = "";
-        if (url == null || url == "") {
+        if (url == null || url == "" || url=="undefined") {
             var base = GetDocParamsValue(wps.WpsApplication().ActiveDocument, constStrEnum.customRedFileBaseUrl);
             path = base.format({id: redId});
         } else {

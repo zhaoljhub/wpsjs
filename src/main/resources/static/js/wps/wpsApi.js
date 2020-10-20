@@ -649,25 +649,26 @@
 
             var type = me.methodType;
             params.methodType = type;
+
+            if (me.customRedFileUrl != null) {
+                params.customRedFileUrl = me.customRedFileUrl;
+                params.bkInsertFile = me.bkInsertFile;
+                params.redFileElement = me.redFileElement;
+                //params.repFileElement = me.repFileElement;
+            } else if (me.customRedFileListUrl != null) {
+                params.customRedFileListUrl = me.customRedFileListUrl;
+                params.customRedFileBaseUrl = me.customRedFileBaseUrl;
+                params.bkInsertFile = me.bkInsertFile;
+                params.redFileElement = me.redFileElement;
+                //params.repFileElement = me.repFileElement;
+            }
+
             // 新增
             if (type == me.methodTypes.add) {
                 info.funcs = [{NewDoc: params}];
             } else {
                 params.docId = me.docId;
                 params.fileName = me.fileLoadPath.toString();
-                if (me.customRedFileUrl != null) {
-                    params.customRedFileUrl = me.customRedFileUrl;
-                    params.bkInsertFile = me.bkInsertFile;
-                    params.redFileElement = me.redFileElement;
-                    //params.repFileElement = me.repFileElement;
-                } else if (me.customRedFileListUrl != null) {
-                    params.customRedFileListUrl = me.customRedFileListUrl;
-                    params.customRedFileBaseUrl = me.customRedFileBaseUrl;
-                    params.bkInsertFile = me.bkInsertFile;
-                    params.redFileElement = me.redFileElement;
-                    //params.repFileElement = me.repFileElement;
-                }
-
                 if (me.protectType != null) {
                     params.openType = {protectType: me.protectType, password: me.password}
                 }
