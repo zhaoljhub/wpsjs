@@ -519,9 +519,9 @@
         } else {
             var str = wpsApi.wpsAllButtonGroups();
             var arr = options.buttonGroups.split(",");
-            arr.forEach(e => {
-                str = str.replace(e, "");
-            });
+            for (var index in arr) {
+                str = str.replace(arr[index], "");
+            }
             this.buttonGroups = str;
         }
         // 是否走动保存文件到服务器 ，自动保存回OA服务端的时间间隔。如果设置0，则关闭，最小设置3分钟
