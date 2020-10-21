@@ -866,7 +866,7 @@
 
         wpsAllButtonGroups: function () {
             var arr = [];
-            for (const index in wpsApi.defineWpsButtonGroups) {
+            for (var index in wpsApi.defineWpsButtonGroups) {
                 arr.push(wpsApi.defineWpsButtonGroups[index]);
             }
             return arr.toString() + ",";
