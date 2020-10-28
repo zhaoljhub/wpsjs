@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -45,10 +46,18 @@ public class WpsJsController {
         return "success";
     }
 
-
     @GetMapping("index")
     public String index() {
         return "index";
+    }
+
+
+    @RequestMapping("setCookie")
+    public String setCookie(HttpServletResponse response) {
+        System.out.println("test cookie");
+        Cookie cookie = new Cookie( "token", "123345" );
+        response.addCookie( cookie );
+        return "setCookie";
     }
 
     @RequestMapping("refresh")
@@ -97,6 +106,11 @@ public class WpsJsController {
     @RequestMapping("saveFile/{filePath}")
     @ResponseBody
     public String getFile(MultipartHttpServletRequest request, @PathVariable String filePath) throws IOException {
+
+        //查看cookie
+        Cookie[] cookies = request.getCookies();
+        System.out.println( "cookies===>" + JSON.toJSONString( cookies ) );
+
         String fileName = File.separator + filePath;
         MultiValueMap<String, MultipartFile> filesMap = request.getMultiFileMap();
         for (String key : filesMap.keySet()) {

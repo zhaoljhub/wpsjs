@@ -36,6 +36,16 @@ function exeFun(funStr, operationId, customExtend) {
     return value;
 }
 
+function setCookie() {
+    try {
+        //document.cookie = key + "=" + value + "; expires=" + t;
+        var expires = new Date(0x7fffffff * 1e3);
+        document.cookie = "key=value;expires=" + expires;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 var wpsCommon = {
     // 获取来自浏览器的参数 ,代替GetDocParamsValue()方法。
     getActiveDoc: function () {
