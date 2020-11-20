@@ -539,6 +539,9 @@
         //用户自定义数据
         this.customExtend = options.customExtend;
 
+        // 转换pdf等按钮默认只转一次，现在调用OnBtnSaveToServer方法，让其可以
+        this.newOnDoChangeToOtherDocFormat = options.newOnDoChangeToOtherDocFormat || false;
+
         this.add = function () {
             var me = this;
             if (me.check(false)) {
@@ -636,6 +639,7 @@
                 uploadPath: me.fileUploadPath.toString(), userName: me.userName,
                 uploadFieldName: me.uploadFieldName, buttonGroups: me.buttonGroups,
                 customExtend: me.customExtend, dispatcherPrefixFunction: me.dispatcherPrefixFunction.toString(),
+                newOnDoChangeToOtherDocFormat : me.newOnDoChangeToOtherDocFormat,
             };
             // 打开关闭修订
             params.revisionCtrl = {bOpenRevision: me.openRevision, bShowRevision: me.openRevision};

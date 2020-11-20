@@ -179,6 +179,7 @@
             userName: "测试人员",
             fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test",
             openRevision: false,
+            buttonGroups:wpsApi.wpsAllButtonGroups(),
             /*dispatcherPrefixFunction: function () {
                 var tokenWindow = window.open("http://127.0.0.1:8080/wpsJs/setCookie", 'tokenWindow',
                     'height=1, width=1, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
@@ -199,6 +200,7 @@
             buttonGroups: wpsApi.defineWpsButtonGroups.btnChangeToPDF, //打开哪些按钮，默认全部关闭
             openRevision: true, // 是够显示痕迹
             saveSuffix: "ofd", //上传文件时以ofd的方式保存
+            newOnDoChangeToOtherDocFormat : true,
             saveCallback: function (message) {
                 $("#webnotifyspan").text("保存之后回调：" + new Date() + JSON.stringify(message));
             }, //保存成功的回调函数

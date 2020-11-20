@@ -289,6 +289,12 @@ function OnInsertPicToDoc(doc, picPath, picWidth, picHeight) {
  * @param {*} pShowPrompt 是否弹出用户确认框
  */
 function OnDoChangeToOtherDocFormat(p_FileSuffix, pShowPrompt) {
+    // todo-13 修改调用onSavetoServer方法，用于将文件保存到服务器上。先保存一个未转版本的文件，在保存一个转版文件
+    if (wpsCommon.getDocParameter(constStrEnum.newOnDoChangeToOtherDocFormat)) {
+        OnBtnSaveToServer(p_FileSuffix);
+        return;
+    }
+
     var l_suffix = p_FileSuffix; // params.suffix;
     if (!l_suffix) {
         return;
@@ -499,7 +505,7 @@ function pSaveAnotherDoc(p_Doc) {
 
 
 //保存到OA后台服务器
-function OnBtnSaveToServer() {
+function OnBtnSaveToServer(suffix) {
     // console.log('SaveToServer');
     var l_doc = wps.WpsApplication().ActiveDocument;
     if (!l_doc) {
@@ -580,18 +586,23 @@ function OnBtnSaveToServer() {
     }
 
     //获取OA传入的 转其他格式上传属性
-    var l_suffix = GetDocParamsValue(l_doc, constStrEnum.suffix);
-    if (l_suffix == "") {
-        //console.log("上传需转换的文件后缀名错误，无法进行转换上传!");
-        return;
-    }
-
     //判断是否同时上传PDF等格式到OA后台
-    var l_uploadWithAppendPath = GetDocParamsValue(l_doc, constStrEnum.uploadWithAppendPath); //标识是否同时上传suffix格式的文档
-    if (l_uploadWithAppendPath == "1") {
+    if (suffix) {
         //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
         SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, true);
-        pDoChangeToOtherDocFormat(l_doc, l_suffix, false, false);
+        pDoChangeToOtherDocFormat(l_doc, suffix, false, false);
+    } else {
+        var l_uploadWithAppendPath = GetDocParamsValue(l_doc, constStrEnum.uploadWithAppendPath); //标识是否同时上传suffix格式的文档
+        var l_suffix = GetDocParamsValue(l_doc, constStrEnum.suffix);
+        if (l_suffix == "") {
+            //console.log("上传需转换的文件后缀名错误，无法进行转换上传!");
+            return;
+        }
+        if (l_uploadWithAppendPath == "1") {
+            //调用转pdf格式函数，强制关闭转换修订痕迹，不弹出用户确认的对话框
+            SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, true);
+            pDoChangeToOtherDocFormat(l_doc, l_suffix, false, false);
+        }
     }
     return;
 }
@@ -648,7 +659,7 @@ function OnUploadToServerSuccess(resp) {
     //if (wps.confirm("正文保存成功，是否关闭正文信息。") == false) {
     // 如果有其他的格式保存操作，则这里不提示
     var l_suffix = GetDocParamsValue(l_doc, constStrEnum.suffix);
-    if(!l_suffix){
+    if (!l_suffix) {
         if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
             if (l_doc) {
                 l_doc.Close(-1); //保存文档后关闭
@@ -1182,7 +1193,7 @@ function OnGetLabel(control) {
             return pSetUserNameLabelControl();
         //======================================================
         case "btnInsertRedHeader": //套红头
-            return "套红头";
+            return "套红";
         case "btnInsertSeal": //插入印章
             return "印章";
         case "btnUploadOABackup": //文件备份

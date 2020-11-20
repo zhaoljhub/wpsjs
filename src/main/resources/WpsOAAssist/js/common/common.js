@@ -344,7 +344,9 @@ function UploadFile(strFileName, strPath, uploadPath, strFieldName, OnSuccess, O
     var xhr = new XMLHttpRequest();
     // todo-10
     if (uploadPath.startWith("function")) {
-        uploadPath = exeFun(uploadPath, wpsCommon.getDocParameter(constStrEnum.actionId), wpsCommon.getDocParameter(constStrEnum.customExtend));
+        var data = wpsCommon.getDocParameter(constStrEnum.customExtend)
+        data.fileExt = strFieldName.split(".")[1];
+        uploadPath = exeFun(uploadPath, wpsCommon.getDocParameter(constStrEnum.actionId), data);
     }
     xhr.open('POST', uploadPath);
     var fileData = wps.FileSystem.readAsBinaryString(strPath);

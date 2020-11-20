@@ -35,3 +35,6 @@
 #### win下相关擦做命令
     1.netstat -aon|findstr "58890" //查看该端口详细信息
     2.tasklist|findstr "22024"  // 查看58890端口多对应得pid对应得进程程序是哪个
+    
+#### 代码心得
+    1.getVisible="OnGetVisible"  // 配置指定需要的是否显示按钮的js执行方法。

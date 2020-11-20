@@ -12,7 +12,7 @@
                     <separator id="sepWPSClound"/>
                 </group>
                 <group id="grpWPSWork" label="OA助手文档操作功能组" getVisible="OnGetVisible">
-                    <button id="btnSaveToServer" label="保存到OA" onAction="OnAction" getEnabled="OnGetEnabled" getImage="GetImage" size="large"/>
+                    <button id="btnSaveToServer" label="保存到OA" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
                     <button id="btnSaveAsFile" label="保存本地" getLabel="OnGetLabel" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
                     <box id="boxWPSWorkEx" boxStyle="vertical" visible="true">
                         <button id="btnChangeToPDF" label="转PDF上传" getLabel="OnGetLabel" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>

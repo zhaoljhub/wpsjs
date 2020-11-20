@@ -135,5 +135,9 @@ var constStrEnum = {
     // 当前执行的按钮或事件的标识位值
     actionId: "actionId",
     // dispatcher启动前执行的方法
-    dispatcherPrefixFunction : "dispatcherPrefixFunction",
+    dispatcherPrefixFunction: "dispatcherPrefixFunction",
+
+    // 新的格式转换保存方法
+    newOnDoChangeToOtherDocFormat: "newOnDoChangeToOtherDocFormat",
+
 }
