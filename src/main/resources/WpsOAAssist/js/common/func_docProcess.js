@@ -562,7 +562,7 @@ function pGetValidDocTempPath(doc) {
  * 作用：转格式保存上传成功后，触发这个事件的回调
  * @param {} response
  */
-function OnChangeSuffixUploadSuccess(response) {
+function OnChangeSuffixUploadSuccess(response, fileExt) {
     var l_doc = wps.WpsApplication().ActiveDocument;
     var prompt = GetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt);
     if (prompt) {
@@ -572,6 +572,13 @@ function OnChangeSuffixUploadSuccess(response) {
                 // 文件保存后，判断是否只是一个文件，一个文件的话就关闭wps
                 //closeWpsIfNoDocument();// 判断WPS中的文件个数是否为0，若为0则关闭WPS函数
                 //SetDocParamsValue(l_doc, constStrEnum.unShowFileTypeChangePrompt, false);
+                // 传送消息到前端
+                var info = {
+                    serverResponse: response,
+                    wpsInfo: wps.PluginStorage.getItem(l_doc.DocID),
+                    event: "parseTo" + fileExt
+                };
+                wps.OAAssist.WebNotify(notifyMessage(info));
             }
         }
     }

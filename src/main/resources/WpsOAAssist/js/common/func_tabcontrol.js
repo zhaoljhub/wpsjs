@@ -569,7 +569,7 @@ function OnBtnSaveToServer(suffix) {
         //落地文档，调用UploadFile方法上传到OA后台
         try {
             //调用OA助手的上传方法
-            UploadFile(l_UploadName, l_DocPath, l_uploadPath, l_FieldName, OnUploadToServerSuccess, OnUploadToServerFail);
+            UploadFile(l_UploadName, l_DocPath, l_uploadPath, l_FieldName, suffix ? null : OnUploadToServerSuccess, OnUploadToServerFail);
         } catch (err) {
             alert("上传文件失败！请检查系统上传参数及网络环境！");
         }
@@ -578,7 +578,8 @@ function OnBtnSaveToServer(suffix) {
         wps.PluginStorage.setItem(constStrEnum.OADocUserSave, EnumDocSaveFlag.OADocSave);
         try {
             //调用不落地上传方法
-            l_doc.SaveAsUrl(l_UploadName, l_uploadPath, l_FieldName, "OnUploadToServerSuccess", "OnUploadToServerFail");
+            l_doc.SaveAsUrl(l_UploadName, l_uploadPath, l_FieldName, suffix ? "" : "OnUploadToServerSuccess", "OnUploadToServerFail");
+            //l_doc.SaveAsUrl(l_UploadName, l_uploadPath, l_FieldName, "OnUploadToServerSuccess", "OnUploadToServerFail");
         } catch (err) {
             alert("上传文件失败！请检查系统上传参数及网络环境，重新上传。");
         }
@@ -651,7 +652,7 @@ function OnInsertDateClicked() {
  * 调用文件上传到OA服务端时，
  * @param {*} resp
  */
-function OnUploadToServerSuccess(resp) {
+function OnUploadToServerSuccess(resp, fileExt) {
     console.log("成功上传服务端后的回调：" + resp)
     var l_doc = wps.WpsApplication().ActiveDocument;
     var l_showConfirm = wps.PluginStorage.getItem(constStrEnum.Save2OAShowConfirm);

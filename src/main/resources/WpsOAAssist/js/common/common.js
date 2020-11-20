@@ -345,7 +345,7 @@ function UploadFile(strFileName, strPath, uploadPath, strFieldName, OnSuccess, O
     // todo-10
     if (uploadPath.startWith("function")) {
         var data = wpsCommon.getDocParameter(constStrEnum.customExtend)
-        data.fileExt = strFieldName.split(".")[1];
+        data.fileExt = strFileName.split(".")[1];
         uploadPath = exeFun(uploadPath, wpsCommon.getDocParameter(constStrEnum.actionId), data);
     }
     xhr.open('POST', uploadPath);
@@ -364,7 +364,7 @@ function UploadFile(strFileName, strPath, uploadPath, strFieldName, OnSuccess, O
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status == 200)
-                OnSuccess(xhr.response)
+                OnSuccess(xhr.response , strFileName.split(".")[1]);
             else
                 OnFail(xhr.response);
         }
