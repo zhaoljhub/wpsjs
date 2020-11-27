@@ -2,7 +2,29 @@
     <ribbon startFromScratch="false">
         <tabs>
             <tab id="WPSWorkExtTab" label="OA辅助" getVisible="OnGetVisible">                <!-- OA菜单开启显隐处理-->
-                <group id="grpWPSClound" label="WPS云文档相关功能" getVisible="OnGetVisible">
+                <group id="grpWPSWork">
+                    <button id="btnOpenLocalWPSYUN" label="打开本地文档"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnSaveToServer" label="保存" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnChangeToPDF" label="转PDF上传"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnChangeToOFD" label="转OFD上传"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnChangeToUOT" label="转UOT上传"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnInsertRedHeader" label="套红"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnUndoFile" label="撤销编辑" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnSaveAsFile" label="下载文档"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
+                    <button id="btnPrintDOC" label="打印文档" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                </group>
+                <group id="grpRevision" label="OA修订功能按钮组" getVisible="OnGetVisible">
+                    <box id="boxRevsion1" boxStyle="horizontal" visible="true">
+                        <button id="btnOpenRevision" label="打开修订" onAction="OnAction" getLabel="OnGetLabel" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
+                        <button id="btnCloseRevision" label="关闭修订" onAction="OnAction" getLabel="OnGetLabel" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
+                    </box>
+                    <box id="boxRevsion2" boxStyle="horizontal" visible="true">
+                        <button id="btnAcceptAllRevisions" label="接收修订" getLabel="OnGetLabel" getEnabled="OnGetEnabled" getVisible="OnGetVisible" onAction="OnAction" getImage="GetImage" size="large" />
+                        <button id="btnRejectAllRevisions" label="拒绝修订" getLabel="OnGetLabel" getEnabled="OnGetEnabled" getVisible="OnGetVisible" onAction="OnAction" getImage="GetImage" size="large" />
+                    </box>
+                    <separator id="sepWPSRevision" getVisible="OnGetVisible" />
+                </group>
+                <!--<group id="grpWPSClound" label="WPS云文档相关功能" getVisible="OnGetVisible">
                     <box id="boxBoxCloud1" boxStyle="horizontal" visible="true">
                         <button id="btnOpenWPSYUN" label="WPS云文档" getLabel="OnGetLabel" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
                     </box>
@@ -54,7 +76,7 @@
                         <button id="btnPrintDOC" label="打印设置" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
                     </box>
                     <separator id="sepWPSFreqUsed" getVisible="OnGetVisible" />
-                </group>
+                </group>-->
                 <group id="grpDocSource" label="文件来源" getVisible="OnGetVisible">
                     <box id="boxFileSource" boxStyle="horizontal" visible="true">
                         <labelControl id="lblDocSourceTitle" label="文件来源：" />

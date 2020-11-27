@@ -1059,6 +1059,9 @@ function OnAction(control) {
             //wps.OAAssist.WebNotify('\"serverResponse\":\"{\"name\":\"zhangsan\",\"state\":\"success\"}\"'); //如果想传一个对象，则使用JSON.stringify方法转成对象字符串。
             break;
         }
+        case "btnUndoFile" :
+            undoFile();
+            break;
         default:
             break;
     }
@@ -1145,7 +1148,9 @@ function GetImage(control) {
         case "btnImportTemplate":
             return "./icon/w_ImportDoc.png";
         case "btnSendMessage":
-            return "./icon/3.svg"
+            return "./icon/3.svg";
+        case "btnUndoFile":
+            return "./icon/w_undoFile.png";
         default:
             ;
     }

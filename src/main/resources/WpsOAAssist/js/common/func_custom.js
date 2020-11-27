@@ -262,3 +262,19 @@ function Replace(jsonData) {
     }
 
 }
+
+// 撤销编辑
+function undoFile() {
+    // 发送消息表示吃撤回文件，然后关闭文件，客户端重新加载
+    var document = wps.WpsApplication().ActiveDocument;
+    var info = {
+        serverResponse: "success",
+        wpsInfo: wps.PluginStorage.getItem(document.DocID),
+        event: "undoFile",
+    };
+    if (wps.confirm("是否撤销正在编辑的文件？撤销将重新加载文件！") == true) {
+        document.Saved = true;
+        document.Close(-1);
+        wps.OAAssist.WebNotify(notifyMessage(info));
+    }
+}

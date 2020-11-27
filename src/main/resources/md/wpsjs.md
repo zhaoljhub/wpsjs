@@ -38,3 +38,4 @@
     
 #### 代码心得
     1.getVisible="OnGetVisible"  // 配置指定需要的是否显示按钮的js执行方法。
+    2.wps.ribbonUI.ActivateTab("WPSWorkExtTab")  跳转到目标按钮tab页签上面去

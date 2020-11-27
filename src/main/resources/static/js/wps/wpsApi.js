@@ -848,6 +848,7 @@
             btnClearRevDoc: "btnClearRevDoc", // 清稿
             btnInsertBookmark: "btnInsertBookmark", // 导入书签
             btnImportTemplate: "btnImportTemplate", // 导入模板
+            btnUndoFile: "btnUndoFile", // 撤销编辑
 
             btnOpenRevision: "btnOpenRevision", // 打开修订
             btnCloseRevision: "btnCloseRevision", // 关闭修订
