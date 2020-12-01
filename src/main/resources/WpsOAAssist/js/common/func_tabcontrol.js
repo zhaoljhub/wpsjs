@@ -1062,6 +1062,9 @@ function OnAction(control) {
         case "btnUndoFile" :
             undoFile();
             break;
+        case "btnFileVersion" :
+            fileVersion();
+            break;
         default:
             break;
     }
@@ -1151,6 +1154,8 @@ function GetImage(control) {
             return "./icon/3.svg";
         case "btnUndoFile":
             return "./icon/w_undoFile.png";
+        case "btnFileVersion":
+            return "./icon/w_history.png";
         default:
             ;
     }

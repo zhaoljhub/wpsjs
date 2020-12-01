@@ -139,5 +139,7 @@ var constStrEnum = {
 
     // 新的格式转换保存方法
     newOnDoChangeToOtherDocFormat: "newOnDoChangeToOtherDocFormat",
+    // 历史版本加载地址
+    fileVersionPagePathUrl : "fileVersionPagePathUrl",
 
 }

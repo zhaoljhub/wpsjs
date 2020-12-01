@@ -364,7 +364,9 @@ function UploadFile(strFileName, strPath, uploadPath, strFieldName, OnSuccess, O
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status == 200)
-                OnSuccess(xhr.response , strFileName.split(".")[1]);
+                if(OnSuccess){
+                    OnSuccess(xhr.response , strFileName.split(".")[1]);
+                }
             else
                 OnFail(xhr.response);
         }

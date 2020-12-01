@@ -12,6 +12,7 @@
                     <button id="btnUndoFile" label="撤销编辑" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
                     <button id="btnSaveAsFile" label="下载文档"  onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large" />
                     <button id="btnPrintDOC" label="打印文档" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
+                    <button id="btnFileVersion" label="历史版本" onAction="OnAction" getEnabled="OnGetEnabled" getVisible="OnGetVisible" getImage="GetImage" size="large"/>
                 </group>
                 <group id="grpRevision" label="OA修订功能按钮组" getVisible="OnGetVisible">
                     <box id="boxRevsion1" boxStyle="horizontal" visible="true">

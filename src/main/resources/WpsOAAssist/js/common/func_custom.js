@@ -107,7 +107,6 @@ function customInsertRepFile(doc) {
             }
         })
     }
-
 }
 
 
@@ -276,5 +275,24 @@ function undoFile() {
         document.Saved = true;
         document.Close(-1);
         wps.OAAssist.WebNotify(notifyMessage(info));
+    }
+}
+
+// 打开历史版本页面
+function fileVersion() {
+    var l_Doc = wps.WpsApplication().ActiveDocument;
+    if (!l_Doc) {
+        return;
+    }
+    // 需要自己去实现页面
+    var l_insertFileUrl = GetDocParamsValue(l_Doc, constStrEnum.fileVersionPagePathUrl); //插入文件的位置
+    if (l_insertFileUrl != "") {
+        var height = 1000;
+        var width = 600;
+        OnShowDialog(l_insertFileUrl, "历史版本", height, width);
+        return;
+    } else {
+        alert("参数fileVersionPagePathUrl为空！");
+        return;
     }
 }
