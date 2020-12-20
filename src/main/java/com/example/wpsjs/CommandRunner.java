@@ -9,10 +9,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class CommandRunner implements CommandLineRunner, ApplicationContextAware {
@@ -114,5 +113,29 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Map<String, String> resolveString(String filePath) {
+        File jsonFile = new File( filePath );
+        StringBuffer str = new StringBuffer();
+        HashMap<String, String> map = new HashMap<>();
+        try {
+            BufferedReader reader = new BufferedReader( new FileReader( jsonFile ) );
+            String read ;
+            while ((read = reader.readLine()) != null) {
+                if (!read.equals( "" )) {
+                    map.put( read.split( "=" )[0].trim(), read.split( "=" )[1].trim() );
+                }
+            }
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Map<String, String> stringStringMap = resolveString( "C:\\Users\\zhaolangjing\\Desktop\\说明文件.txt" );
+        System.out.println( stringStringMap );
     }
 }
