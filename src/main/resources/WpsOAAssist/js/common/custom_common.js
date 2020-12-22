@@ -28,22 +28,14 @@ String.prototype.format = function () {
     return s;
 };
 
+String.prototype.bootFormat = String.prototype.format;
+
 // 将传输的字符串函数当方法。
 function exeFun(funStr, operationId, customExtend) {
     funStr = "return " + funStr;
     var jsCode = new Function(funStr)();
     var value = jsCode(operationId, customExtend);
     return value;
-}
-
-function setCookie() {
-    try {
-        //document.cookie = key + "=" + value + "; expires=" + t;
-        var expires = new Date(0x7fffffff * 1e3);
-        document.cookie = "key=value;expires=" + expires;
-    } catch (e) {
-        console.log(e);
-    }
 }
 
 var wpsCommon = {

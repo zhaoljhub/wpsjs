@@ -142,4 +142,9 @@ var constStrEnum = {
     // 历史版本加载地址
     fileVersionPagePathUrl : "fileVersionPagePathUrl",
 
+    // 插入文本字段在当前文档中
+    // { text : "文本字段"
+
+    // }
+    fileInsertObject : "fileInsertObject",
 }

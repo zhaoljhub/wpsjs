@@ -457,7 +457,8 @@
         //this.debug = options.debug || false; //debug模式不打开 ， 开启打印日志
         //this.autoLoad = options.autoLoad || false; // 自动调用load方法加载文件，不需要再.load方法
         this.methodTypes = {
-            add: "NewDoc", edit: "OpenDoc", exit: "ExitWPS", status: "GetDocStatus", replace: "ReplaceDoc"
+            add: "NewDoc", edit: "OpenDoc", exit: "ExitWPS", status: "GetDocStatus",
+            replace: "ReplaceDoc", insertText: "insertText",
         }
         this.https = options.https || false; //是否使用https协议调用wps。默认使用http
 
@@ -493,6 +494,9 @@
 
         this.customRepJsonDataUrl = options.customRepJsonDataUrl; // 方式一，通过url获取替换字段数据
         this.repFileElement = options.repFileElement || ""; // 方式二，直接传替换数据字段进行解析
+
+        // 历史版本url页面
+        this.fileVersionPagePathUrl = options.fileVersionPagePathUrl || "";
         /**
          *
          * @type {*|string}
@@ -612,6 +616,12 @@
             me.exec(info);
         }
 
+        this.insertText = function (textObject) {
+            var me = this, info = {};
+            info.funcs = [{insertText: textObject}]; // 默认不强制退出
+            me.exec(info);
+        }
+
         this.getDocInfo = function () {
             var me = this, info = {};
             me.methodType = me.methodTypes.status;
@@ -639,7 +649,8 @@
                 uploadPath: me.fileUploadPath.toString(), userName: me.userName,
                 uploadFieldName: me.uploadFieldName, buttonGroups: me.buttonGroups,
                 customExtend: me.customExtend, dispatcherPrefixFunction: me.dispatcherPrefixFunction.toString(),
-                newOnDoChangeToOtherDocFormat : me.newOnDoChangeToOtherDocFormat,
+                newOnDoChangeToOtherDocFormat: me.newOnDoChangeToOtherDocFormat,fileInsertObject: me.fileInsertObject,
+                fileVersionPagePathUrl : me.fileVersionPagePathUrl,
             };
             // 打开关闭修订
             params.revisionCtrl = {bOpenRevision: me.openRevision, bShowRevision: me.openRevision};
@@ -849,6 +860,7 @@
             btnInsertBookmark: "btnInsertBookmark", // 导入书签
             btnImportTemplate: "btnImportTemplate", // 导入模板
             btnUndoFile: "btnUndoFile", // 撤销编辑
+            btnFileVersion: "btnFileVersion", // 历史版本
 
             btnOpenRevision: "btnOpenRevision", // 打开修订
             btnCloseRevision: "btnCloseRevision", // 关闭修订

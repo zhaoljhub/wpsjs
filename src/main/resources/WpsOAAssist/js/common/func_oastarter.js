@@ -53,6 +53,8 @@ function dispatcher(info) {
                 return openPdf(func[key])
             } else if (key == "ReplaceDoc") {
                 return OpenDoc(func[key])
+            }else if(key == "insertText"){
+                return insertText(func[key])
             }
             message.operation = key;
 

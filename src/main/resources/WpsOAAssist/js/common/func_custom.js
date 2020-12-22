@@ -32,7 +32,7 @@ function customWpsRedFile(doc) {
     }
 }
 
-// 套红头
+// 套红头 [标题]
 function customInsertRedFile(doc, strFile, bookmark) {
     var bookMarks = doc.Bookmarks;
     if (bookMarks.Item("quanwen")) { // 当前文档存在"quanwen"书签时候表示已经套过红头
@@ -295,4 +295,20 @@ function fileVersion() {
         alert("参数fileVersionPagePathUrl为空！");
         return;
     }
+}
+
+// 在当前的文档光标处插入文本
+function insertText(params) {
+    var se = wps.WpsApplication().ActiveDocument.ActiveWindow.Selection;
+    se.InsertAfter(params.text);
+    if (params.color) {
+        se.Font.Color = params.color;
+    }
+    if (params.size) {
+        se.Font.Size = params.size;
+    }
+    if (params.name) {
+        se.Font.Name = params.name;
+    }
+    se.EndKey();
 }

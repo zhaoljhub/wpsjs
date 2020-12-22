@@ -50,6 +50,7 @@
         <a id="tempRepEdit1" href="javascript:void(0)">模板替换(传输获取数据的url)</a>
         <p></p>
         <a id="getState" href="javascript:void(0)">获取状态</a>
+        <a id="insertText" href="javascript:void(0)">插入数据</a>
 
         <p>WPS加载项发来的消息内容:</p>
         <textarea style="width: 97%; height: 326px" id="webnotifyspan">
@@ -148,6 +149,12 @@
             code(getState);
             getState();
         });
+
+        $("#insertText").on("click", function () {
+            code(insertText);
+            insertText();
+        });
+
     });
 
 
@@ -388,6 +395,34 @@
     function code(fun) {
         document.getElementById("code").innerText = fun.toString();
         hljs.highlightBlock(document.getElementById("code"));
+    }
+
+    var insertTextWps;
+
+    function insertText() {
+        if (insertTextWps == null) {
+            insertTextWps = wpsApi.wps({
+                docId: "123",
+                userName: "测试人员",
+                fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test",
+                openRevision: false,
+                buttonGroups: wpsApi.wpsAllButtonGroups(),
+            });
+            insertTextWps.add();
+        }
+        insertTextWps.insertText({
+            text: guid(),
+            color: Math.floor(Math.random() * 100 + 1),
+            font: Math.floor(Math.random() * 10 + 1),
+            name: 'Italics',
+        });
+
+        function guid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
     }
 </script>
 
