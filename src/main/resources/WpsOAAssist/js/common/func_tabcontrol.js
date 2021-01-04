@@ -359,8 +359,6 @@ function pDoChangeToOtherDocFormat(p_Doc, p_Suffix, pShowPrompt, p_ShowRevision)
         }else{
             l_NewName = docPath + "/B_" + p_Doc.Name;
         }
-
-        l_NewName = p_Doc.Path + "\\B_" + p_Doc.Name;
         p_Doc.SaveAs2($FileName = l_NewName, $AddToRecentFiles = false);
         p_Doc.SaveAs2($FileName = l_SourceName, $AddToRecentFiles = false);
 
