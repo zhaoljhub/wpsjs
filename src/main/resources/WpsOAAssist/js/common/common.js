@@ -425,3 +425,19 @@ function UpdateEditState(p_Url, p_OpenUrl, docId, state) {
         }
     });
 }
+
+
+/**
+  * 作用：获取文档的Path或者临时文件路径
+  * @param {*} doc 
+  */
+function getDocSavePath(doc) {
+    if (!doc) {
+        return;
+    }
+    if (doc.Path == "") { //对于不落地文档，文档路径为空
+        return wps.Env.GetTempPath();
+    } else {
+        return doc.Path
+    }
+}

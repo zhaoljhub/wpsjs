@@ -351,6 +351,15 @@ function pDoChangeToOtherDocFormat(p_Doc, p_Suffix, pShowPrompt, p_ShowRevision)
     wps.PluginStorage.setItem(constStrEnum.OADocUserSave, true); //设置一个临时变量，用于在BeforeSave事件中判断 
     if (p_ShowRevision == false) { // 强制关闭痕迹显示
         var l_SourceName = p_Doc.FullName;
+
+        var l_NewName="";
+        var docPath=getDocSavePath(p_Doc);
+        if(docPath.indexOf("\\")>0){
+            l_NewName = docPath + "\\B_" + p_Doc.Name;
+        }else{
+            l_NewName = docPath + "/B_" + p_Doc.Name;
+        }
+
         l_NewName = p_Doc.Path + "\\B_" + p_Doc.Name;
         p_Doc.SaveAs2($FileName = l_NewName, $AddToRecentFiles = false);
         p_Doc.SaveAs2($FileName = l_SourceName, $AddToRecentFiles = false);
@@ -369,7 +378,6 @@ function pDoChangeToOtherDocFormat(p_Doc, p_Suffix, pShowPrompt, p_ShowRevision)
     } else {
         handleFileAndUpload(l_suffix, p_Doc, l_uploadPath, l_FieldName);
     }
-
     wps.PluginStorage.setItem(constStrEnum.OADocUserSave, false);
 
     return;
