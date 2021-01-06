@@ -315,6 +315,6 @@ function insertText(params) {
 
 function customFunctionExe(fun, options) {
     var funStr = "return " + fun;
-    var jsCode = new Function(funStr())();
+    var jsCode = new Function(funStr)();
     return jsCode(options);
 }
