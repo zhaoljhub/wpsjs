@@ -29,7 +29,7 @@ function dispatcher(info) {
         for (var key in func) {
             // todo-12 , dispatcher启动前执行的方法
             if (func[key].dispatcherPrefixFunction && func[key].dispatcherPrefixFunction.startWith("function")) {
-                exeFun(func[key].dispatcherPrefixFunction, key , func[key]);
+                exeFun(func[key].dispatcherPrefixFunction, key, func[key]);
             }
             if (key === "OpenDoc") { // OpenDoc 属于普通的打开文档的操作方式，文档落地操作
                 OpenDoc(func[key]); //进入打开文档处理函数
@@ -53,8 +53,10 @@ function dispatcher(info) {
                 return openPdf(func[key])
             } else if (key == "ReplaceDoc") {
                 return OpenDoc(func[key])
-            }else if(key == "insertText"){
+            } else if (key == "insertText") {
                 return insertText(func[key])
+            } else if (key == "customFunctionExe") {
+                return customFunctionExe(func[key]);
             }
             message.operation = key;
 

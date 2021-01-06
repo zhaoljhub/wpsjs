@@ -52,6 +52,9 @@
         <a id="getState" href="javascript:void(0)">获取状态</a>
         <a id="insertText" href="javascript:void(0)">插入数据</a>
 
+        <p></p>
+        <a id="exeFun" href="javascript:void(0)">自定义方法</a>
+
         <p>WPS加载项发来的消息内容:</p>
         <textarea style="width: 97%; height: 326px" id="webnotifyspan">
 
@@ -153,6 +156,11 @@
         $("#insertText").on("click", function () {
             code(insertText);
             insertText();
+        });
+
+        $("#exeFun").on("click", function () {
+            code(exeFun);
+            exeFun();
         });
 
     });
@@ -423,6 +431,14 @@
                 return v.toString(16);
             });
         }
+    }
+
+
+    function exeFun() {
+        wpsApi.wps({}).customFunExe(function () {
+
+            console.log(wps);
+        });
     }
 </script>
 

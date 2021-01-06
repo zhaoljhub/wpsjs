@@ -622,6 +622,12 @@
             me.exec(info);
         }
 
+        this.customFunExe = function (fun) {
+            var me = this, info = {};
+            info.funcs = [{customFunctionExe: fun.toString()}]; // 执行客户端自定义的方法
+            me.exec(info);
+        }
+
         this.getDocInfo = function () {
             var me = this, info = {};
             me.methodType = me.methodTypes.status;
@@ -649,8 +655,8 @@
                 uploadPath: me.fileUploadPath.toString(), userName: me.userName,
                 uploadFieldName: me.uploadFieldName, buttonGroups: me.buttonGroups,
                 customExtend: me.customExtend, dispatcherPrefixFunction: me.dispatcherPrefixFunction.toString(),
-                newOnDoChangeToOtherDocFormat: me.newOnDoChangeToOtherDocFormat,fileInsertObject: me.fileInsertObject,
-                fileVersionPagePathUrl : me.fileVersionPagePathUrl,
+                newOnDoChangeToOtherDocFormat: me.newOnDoChangeToOtherDocFormat, fileInsertObject: me.fileInsertObject,
+                fileVersionPagePathUrl: me.fileVersionPagePathUrl,
             };
             // 打开关闭修订
             params.revisionCtrl = {bOpenRevision: me.openRevision, bShowRevision: me.openRevision};
