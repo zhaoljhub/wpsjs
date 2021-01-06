@@ -622,9 +622,9 @@
             me.exec(info);
         }
 
-        this.customFunExe = function (fun) {
+        this.customFunExe = function (fun, options) {
             var me = this, info = {};
-            info.funcs = [{customFunctionExe: fun.toString()}]; // 执行客户端自定义的方法
+            info.funcs = [{customFunctionExe: {fun: fun.toString(), options: options}}]; // 执行客户端自定义的方法
             me.exec(info);
         }
 

@@ -313,8 +313,8 @@ function insertText(params) {
     se.EndKey();
 }
 
-function customFunctionExe(fun, options) {
-    var funStr = "return " + fun;
+function customFunctionExe(funAndOptions) {
+    var funStr = "return " + funAndOptions.fun;
     var jsCode = new Function(funStr)();
-    return jsCode(options);
+    return jsCode(funAndOptions.options);
 }

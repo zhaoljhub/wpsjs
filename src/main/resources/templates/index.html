@@ -435,10 +435,10 @@
 
 
     function exeFun() {
-        wpsApi.wps({}).customFunExe(function () {
-
+        wpsApi.wps({}).customFunExe(function (options) {
             console.log(wps);
-        });
+            console.log(options.name);
+        }, {name: "zhaosan"});
     }
 </script>
 
