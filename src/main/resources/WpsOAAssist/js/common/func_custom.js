@@ -211,6 +211,67 @@ function Replace(jsonData) {
         }
     }
 
+
+
+    /**
+     * 图片链接替换
+     * @param cell
+     */
+    this.type4 = function (cell) {
+        var me = this;
+        me.findKey(cell.keyName);
+        if (me.se) {
+            if (isEmpty(cell.keyValue)) {
+                me.se.TypeText(" ");
+            } else {
+                //如果有多个的情况下，用逗号拆分
+                var imgsArray = cell.keyValue.split(",");
+                if(imgsArray.length == 0){
+                    me.se.TypeText(" ");
+                }
+                //随机数 数组，后面插入书签使用
+                var ranTextArray = [];
+                //文件json数组
+                var fileArray = [];
+                for (var i = 0; i < imgsArray.length; i++) {
+                    //生成10位数随机数
+                    var ranText = 'imgran'+me.ran(10);
+                    var file = {
+                        key : ranText,
+                        value : imgsArray[i]
+                    };
+                    fileArray.push(file);
+                    ranTextArray.push(ranText);
+                }
+                //替换成多行
+                me.se.TypeText(ranTextArray.join("\r"));
+                //处理图片
+                me.addPicture(fileArray);
+                $.each(fileArray,function (index, item) {
+                    //防止插入图片失败
+                    replaceText(item.key, "");
+                });
+
+            }
+        }
+    };
+
+    /**
+     * 生成随机数
+     */
+    this.ran = function (m) {
+        var num = '';
+        for(var i = 0; i < m; i++) {
+            var val = parseInt(Math.random()*10, 10);
+            if(i === 0 && val === 0) {
+                i--;
+                continue;
+            }
+            num += val;
+        }
+        return num;
+    };
+
     this.addPicture = function (pictureArr) {
         if (pictureArr.length > 0) {
             pictureArr.forEach(o => {
@@ -255,11 +316,13 @@ function Replace(jsonData) {
                 if (cell.keyType == 2) {
                     me.type2(cell);
                 }
+                if (cell.keyType == 4) {
+                    me.type4(cell);
+                }
             }
             me.startHome(); //定位到开始
         }
     }
-
 }
 
 // 撤销编辑
