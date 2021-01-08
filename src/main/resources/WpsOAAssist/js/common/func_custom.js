@@ -247,11 +247,6 @@ function Replace(jsonData) {
                 me.se.TypeText(ranTextArray.join("\r"));
                 //处理图片
                 me.addPicture(fileArray);
-                $.each(fileArray,function (index, item) {
-                    //防止插入图片失败
-                    replaceText(item.key, "");
-                });
-
             }
         }
     };
