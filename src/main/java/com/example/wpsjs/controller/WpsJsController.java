@@ -51,10 +51,18 @@ public class WpsJsController {
         return "index";
     }
 
+    @RequestMapping("page/{pages}")
+    public String index(@PathVariable String pages) {
+        if (pages != null) {
+            return pages;
+        }
+        return "index";
+    }
+
 
     @RequestMapping("setCookie")
     public String setCookie(HttpServletResponse response) {
-        System.out.println("test cookie");
+        System.out.println( "test cookie" );
         Cookie cookie = new Cookie( "token", "123345" );
         response.addCookie( cookie );
         return "setCookie";

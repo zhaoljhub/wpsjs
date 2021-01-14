@@ -858,6 +858,9 @@ function OpenLocalFile() {
 
     //msoFileDialogFilePicker = 3
     var l_FileDialog = wps.WpsApplication().FileDialog(3);
+    // 添加选择文件类型过滤
+    l_FileDialog.Filters.Clear(); // 先清除以选设置选择文件类型，不然会一直缓存类型，越来越多
+    l_FileDialog.Filters.Add("文档文件", "*.doc;*.docx;*.wps");
     if (l_FileDialog.Show()) {
         l_FileName = l_FileDialog.SelectedItems;
         if (l_FileName.Count > 0) {

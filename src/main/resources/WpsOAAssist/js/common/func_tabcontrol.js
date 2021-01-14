@@ -419,7 +419,7 @@ function OnBtnSaveAsLocalFile() {
         wps.PluginStorage.setItem(constStrEnum.OADocUserSave, true); //设置保存为临时状态，在Save事件中避免OA禁止另存为对话框
         l_ksoFileDialog.Execute(); //会触发保存文档的监听函数
 
-        pSetNoneOADocFlag(l_doc);
+        //pSetNoneOADocFlag(l_doc);
 
         wps.ribbonUI.Invalidate(); //刷新Ribbon的状态
 

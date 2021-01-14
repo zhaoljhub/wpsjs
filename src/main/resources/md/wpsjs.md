@@ -14,7 +14,7 @@
 * 新版wps下载地址 https://www.kdocs.cn/view/l/sGH09JXHo
 * wps部署方案 https://www.kdocs.cn/view/l/crLuCxAmo
 * md转html demo https://www.jianshu.com/p/cb21b4accdd9
-* wps加载项文档首页 ： https://open.wps.cn/docs/office
+* wps加载项文档首页(重要) ： https://open.wps.cn/docs/office
 * XMLHttpRequest讲解 https://segmentfault.com/a/1190000004322487 /https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/open
 
 #### 修改jsplugins.xml的相关操作
@@ -39,3 +39,8 @@
 #### 代码心得
     1.getVisible="OnGetVisible"  // 配置指定需要的是否显示按钮的js执行方法。
     2.wps.ribbonUI.ActivateTab("WPSWorkExtTab")  跳转到目标按钮tab页签上面去
+    
+#### 问题处理
+    1.2020-1-14
+        1.新建文件的时候，“打开本地文件”时屏蔽掉其他格式的文件，比如PDF。
+        2. 点击下载文件保存到本地后，保存按钮会被禁用
