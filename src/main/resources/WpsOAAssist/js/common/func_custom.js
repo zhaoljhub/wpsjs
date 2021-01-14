@@ -1,4 +1,42 @@
 /**
+ * Wps工具
+ */
+var WpsUtil = {
+    /**
+     * 查找关键字
+     * @param key 关键字
+     * @returns 选择对象
+     */
+    findKey : function (key) {
+        var se = wps.WpsApplication().ActiveDocument.ActiveWindow.Selection;
+        se.HomeKey(6);//归位
+        se.Find.ClearFormatting(); // 消除查找替换中得字符限制
+        se.Find.Replacement.ClearFormatting();  // 消除查找替换中得字符限制
+        se.Find.Text = key;
+        if (!se.Find.Execute()) {
+            return null;
+        }
+        return se;
+    },
+    /**
+     * 替换单个文本
+     * @param strOldText
+     * @param strNewText
+     * @returns {boolean}
+     */
+    replaceSingleText : function (strOldText, strNewText) {
+        //寻找被替换的值是否存在
+        var se = WpsUtil.findKey(strOldText);
+        if(se == null){
+            return false;
+        }
+        //替换值
+        se.TypeText(strNewText);
+        return true;
+    }
+};
+
+/**
  * 转字符串
  * @param info
  */
