@@ -440,6 +440,12 @@
 
 // 自定义封装
 (function (window, document, $) {
+    var fileOpenPlugin = {
+        wps: ["doc", "docx", "wps"],
+        et: ["xls", "xlsx"],
+        wpp: ["ppt", "pptx"],
+    }
+
     //引入wps_sdk
     var infoAlert = function (error, message) {
         if (error) {
@@ -449,6 +455,34 @@
             console.info(message);
             alert(message);
         }
+    }
+
+    var check = function (me, edit) {
+        if (me.fileUploadPath == "") {
+            infoAlert(true, "文件的上传路径不能为空！");
+            return false;
+        }
+        if (edit && me.fileLoadPath == "") {
+            infoAlert(true, "文件的加载路径不能为空！");
+            return false;
+        }
+        return true;
+    }
+
+    var addToken = function (me) {
+        if (me.token) {
+            for (var index in me) {
+                var temp = me[index];
+                if (typeof temp == "string" && wpsApi.wpsExtend.isHttpUrl(temp)) {
+                    var number = temp.indexOf("?");
+                    // 说明有参数
+                    if (number > -1 && temp.length - 1 > number) {
+                        me[index] += "&" + me.token.tokenName + "=" + me.token.tokenValue;
+                    }
+                }
+            }
+        }
+        return me;
     }
 
     // wps提供的一次可以打开多个文档，这里只提供一次打开一个
@@ -548,7 +582,7 @@
 
         this.add = function () {
             var me = this;
-            if (me.check(false)) {
+            if (check(me, false)) {
                 me.methodType = me.methodTypes.add;
                 me.load();
             }
@@ -556,7 +590,7 @@
 
         this.edit = function () {
             var me = this;
-            if (me.check(true)) {
+            if (check(me, true)) {
                 me.methodType = me.methodTypes.edit;
                 me.load();
             }
@@ -564,7 +598,7 @@
 
         this.view = function () {
             var me = this;
-            me.methodType = me.methodTypes.edit;
+            me.methodType = me.methodTypes.view;
             me.protectType = wpsApi.wpsProtectTypeEnum.read;
             me.load();
         }
@@ -635,22 +669,10 @@
             me.exec(info);
         }
 
-        this.check = function (edit) {
-            var me = this;
-            if (me.fileUploadPath == "") {
-                infoAlert(true, "文件的上传路径不能为空！");
-                return false;
-            }
-            if (edit && me.fileLoadPath == "") {
-                infoAlert(true, "文件的加载路径不能为空！");
-                return false;
-            }
-            return true;
-        }
 
         this.load = function () {
             var me = this, info = {};
-            me.addToken();
+            me = addToken(me);
             var params = {
                 uploadPath: me.fileUploadPath.toString(), userName: me.userName,
                 uploadFieldName: me.uploadFieldName, buttonGroups: me.buttonGroups,
@@ -739,27 +761,116 @@
                     }
                 })
         }
+    }
 
-        // 给所有的url添加token参数
-        this.addToken = function () {
+
+    function et(options) {
+        options.invoke = {
+            type: WpsInvoke.ClientType.et, name: "EtOAAssist", dispatcher: "dispatcher",
+        }
+        return options;
+    }
+
+    function wpp(options) {
+        options.invoke = {
+            type: WpsInvoke.ClientType.wpp, name: "WppOAAssist", dispatcher: "dispatcher",
+        }
+        return options;
+    }
+
+    function Api(options) {
+        this.fileLoadPath = options.fileLoadPath || ""; //文档加载地址
+        this.docId = options.docId;  // 文档id
+        this.fileUploadPath = options.fileUploadPath || ""; //文档保存上载地址
+        this.userName = options.userName; //用户名
+        // 按钮控制器 , 默认显示所以
+        this.buttonGroups = options.buttonGroups || [wpsApi.defineEtButtonGroups.btnSaveAsFile, wpsApi.defineEtButtonGroups.btnSaveToServer].toString();
+
+        this.add = function () {
             var me = this;
-            if (me.token) {
-                for (var index in me) {
-                    var temp = me[index];
-                    if (typeof temp == "string" && wpsApi.wpsExtend.isHttpUrl(temp)) {
-                        var number = temp.indexOf("?");
-                        // 说明有参数
-                        if (number > -1 && temp.length - 1 > number) {
-                            me[index] += "&" + me.token.tokenName + "=" + me.token.tokenValue;
+            if (check(me, false)) {
+                me.load();
+            }
+        }
+
+        this.edit = function () {
+            var me = this;
+            if (check(me, true)) {
+                me.load();
+            }
+        }
+
+        this.view = function () {
+            var me = this;
+            me.protectType = wpsApi.wpsProtectTypeEnum.read;
+            me.buttonGroups = options.buttonGroups || [wpsApi.defineEtButtonGroups.btnSaveAsFile].toString();
+            me.load();
+        }
+
+        this.load = function () {
+            var me = this, info = {};
+            me = addToken(me);
+            var params = {
+                buttonGroups: function button() {
+                    var str = wpsApi.etAllButtonGroups();
+                    var arr = me.buttonGroups.split(",");
+                    for (var index in arr) {
+                        str = str.replace(arr[index], "");
+                    }
+                    return str;
+                }(),
+                uploadPath: me.fileUploadPath.toString(),
+                userName: me.userName,
+            };
+            params.docId = me.docId;
+            params.fileName = me.fileLoadPath.toString();
+            if (me.protectType != null) {
+                params.openType = {protectType: me.protectType, password: me.password}
+            }
+            info.funcs = [{OpenDoc: params}];
+            this.exec(info);
+            // 执行创建一个消息通知回调 EtOAAssist  WppOAAssist
+            // options
+            if (me.saveCallback) {
+                WpsInvoke.RegWebNotify(options.invoke.type, options.invoke.name, function (messageText) {
+                    console.log("消息通知===>" + messageText);
+                    return me.saveCallback(JSON.parse(decodeURI(messageText)));
+                })
+            }
+        }
+
+        this.exec = function (info) {
+            var me = this, func = me.https ? WpsInvoke.InvokeAsHttps : WpsInvoke.InvokeAsHttp;
+            //调用
+            func(options.invoke.type, // 组件类型
+                options.invoke.name, // 插件名，与wps客户端加载的加载的插件名对应
+                options.invoke.dispatcher, // 插件方法入口，与wps客户端加载的加载的插件代码对应，详细见插件代码
+                info, // 传递给插件的数据
+                function (result) { // 调用回调，status为0为成功，其他是错误
+                    // 错误处理
+                    if (result.status) {
+                        if (result.status == 100) {
+                            return;
+                        }
+                        alert(result.message)
+                    } else {
+                        console.log("回调函数打印:" + result.response)
+                        if (me.openCallback) {
+                            me.openCallback(result);
                         }
                     }
-                }
-            }
+                })
         }
     }
 
     // wps配置文件修改，设置publish.xml 。 如果有必要需要修改加载项配置，则执行
     function WpsPlugins(options) {
+        if (options.type == WpsInvoke.ClientType.et) {
+            options.name = "EtOAAssist";
+        }
+        if (options.type == WpsInvoke.ClientType.wpp) {
+            options.name = "WppOAAssist";
+        }
         this.online = !(options.offline || false);  // 在线离线 ，默认在线
         this.name = options.name || "WpsOAAssist"; // 插件名,
         this.type = options.type || "wps"; // wps类型
@@ -833,10 +944,31 @@
         wps: function (options) {
             return new WpsApi(options);
         },
+        et: function (options) {
+            options = et(options)
+            return new Api(options);
+        },
+        wpp: function (options) {
+            options = wpp(options)
+            return new Api(options);
+        },
         //wps配置基本参数对象
         wpsPlugins: function (options) {
             return new WpsPlugins(options);
         },
+
+        //返回wps的调用类型
+        wpsType: function (fileType) {
+            for (var key in fileOpenPlugin) {
+                var type = fileOpenPlugin[key];
+                for (var index in type) {
+                    if (fileType == type[index]) {
+                        return key;
+                    }
+                }
+            }
+        },
+
         wpsProtectTypeEnum: {
             disable: -1,  // 不启用保护模式
             onlyEditRevision: 0, //只允许对现有内容进行修订 , 修订内容可以保存，wps显示再右，office鼠标悬停显示
@@ -888,12 +1020,23 @@
         },
 
         wpsAllButtonGroups: function () {
+            return wpsApi.allButtonGroups(wpsApi.defineWpsButtonGroups);
+        },
+
+        etAllButtonGroups: function () {
+            return wpsApi.allButtonGroups(wpsApi.defineEtButtonGroups);
+        },
+
+        allButtonGroups: function (ButtonGroups) {
             var arr = [];
-            for (var index in wpsApi.defineWpsButtonGroups) {
-                arr.push(wpsApi.defineWpsButtonGroups[index]);
+            for (var index in ButtonGroups) {
+                arr.push(ButtonGroups[index]);
             }
             return arr.toString() + ",";
         },
+
+        // et和wpp公用
+        defineEtButtonGroups: {btnSaveToServer: "btnSaveToServer", btnSaveAsFile: "btnSaveAsFile"},
 
         wpsExtend: {
             isHttpUrl: function (url) {

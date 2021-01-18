@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/wps/wpsApi.js"></script>
+    <script src="/static/highlight/highlight.js"></script>
+    <link rel="stylesheet" href="/static/highlight/highlight.css">
+    <style>
+        .div0 {
+            margin-left: 200px;
+        }
+
+        .div1 {
+            width: 30%;
+            float: left;
+        }
+
+        .div2 {
+            width: 50%;
+            float: left;
+        }
+
+        #code {
+            min-height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="div0">
+    <div class="div1">
+        <div>
+            <p style="font-size: x-large;"><a href="http://127.0.0.1:8080/md/wpsjs">hello wps加载项 </a></p>
+        </div>
+        <a id="refreshWpsPublish" href="javascript:void(0)">通过刷新wps的publish.xml刷新加载项</a><br>
+        <a id="refreshWpsJsplugins" href="javascript:void(0)">通过刷新wps的jsplugins.xml刷新加载项</a>
+        <p></p>
+        <a id="newDoc" href="javascript:void(0)">新建文件</a>
+        <a id="editDoc" href="javascript:void(0)">编辑文件</a>
+        <a id="viewDoc" href="javascript:void(0)">查看文件</a>
+
+        <p>WPS加载项发来的消息内容:</p>
+        <textarea style="width: 97%; height: 326px" id="webnotifyspan">
+
+        </textarea>
+    </div>
+
+    <div class="divFunction div2">
+        <fieldset>
+            <legend id="codeview">功能代码</legend>
+            <pre id="codepre"><code id="code"></code></pre>
+        </fieldset>
+    </div>
+</div>
+
+<script type="application/javascript">
+
+    function code(fun) {
+        document.getElementById("code").innerText = fun.toString();
+        hljs.highlightBlock(document.getElementById("code"));
+    }
+
+    $(function () {
+        $("#refreshWpsPublish").on("click", function () {
+            code(refreshWpsPublish);
+            refreshWpsPublish();
+        });
+
+        $("#refreshWpsJsplugins").on("click", function () {
+            code(refreshWpsJsplugins);
+            refreshWpsJsplugins();
+        });
+
+        $("#editDoc").on("click", function () {
+            code(editWpp);
+            editWpp();
+        });
+
+
+        $("#newDoc").on("click", function () {
+            code(newWpp);
+            newWpp();
+        });
+
+        $("#viewDoc").on("click", function () {
+            code(viewWpp);
+            viewWpp();
+        });
+
+
+        function refreshWpsPublish() {
+            wpsApi.wpsPlugins({
+                online: true,  // 在线离线 ，默认在线 , 可不传
+                name: "WppOAAssist", // 插件名,可默认不传
+                type: "wpp", // wps类型 ， 可用默认不传
+                url: "http://127.0.0.1:8080/WppOAAssist/", //加载url的地址 ， 必传
+                cmd: "enable", //"enable", 启用， "disable", 禁用, "disableall", 禁用所有
+                callback: function (res) {
+                    $("#webnotifyspan").text("更新(et)publish.xml文件结果：" + JSON.stringify(res));
+                } // 成功失败的回调
+            }).refresh();
+        }
+
+    });
+
+    function newWpp() {
+        wpsApi.wpp({
+            docId: "123",
+            userName: "测试人员",
+            fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test",
+        }).add();
+    }
+
+    function editWpp() {
+        wpsApi.wpp({
+            docId: "123",
+            userName: "测试人员",
+            fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test",
+            fileLoadPath: "http://127.0.0.1:8080/wpsJs/getFile/test.pptx",  // 文件加载地址，不传就是新建文件
+        }).edit();
+    }
+
+    function viewWpp() {
+        wpsApi.wpp({
+            docId: "123",
+            userName: "测试人员",
+            fileLoadPath: "http://127.0.0.1:8080/wpsJs/getFile/test.pptx",  // 文件加载地址，不传就是新建文件
+        }).view();
+    }
+</script>
+
+</body>
+</html>

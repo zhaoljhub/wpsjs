@@ -105,6 +105,7 @@ function pShowRibbonGroupByOADocParam(CtrlID) {
 
     //获取OA传入的按钮组参数组
     var l_grpButtonParams = GetDocParamsValue(l_Doc, "buttonGroups"); //disableBtns
+    console.log(CtrlID + "======" + l_grpButtonParams);
     l_grpButtonParams = l_grpButtonParams + "," + GetDocParamsValue(l_Doc, "disableBtns");
     // 要求OA传入控制自定义按钮显示的参数为字符串 中间用 , 分隔开
     if (typeof (l_grpButtonParams) == "string") {
@@ -315,8 +316,8 @@ function OnBtnSaveAsLocalFile() {
     if (l_ksoFileDialog.Show() == -1) { // -1 代表确认按钮
         wps.PluginStorage.setItem("OADocUserSave", true); //设置保存为临时状态，在Save事件中避免OA禁止另存为对话框
         l_ksoFileDialog.Execute(); //会触发保存文档的监听函数
-
-        pSetNoneOADocFlag(l_doc);
+        // 取消掉按钮屏蔽
+        //pSetNoneOADocFlag(l_doc);
         wps.ribbonUI.Invalidate(); //刷新Ribbon的状态
     };
 }
