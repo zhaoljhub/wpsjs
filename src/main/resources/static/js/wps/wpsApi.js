@@ -785,7 +785,6 @@
         this.userName = options.userName; //用户名
         // 按钮控制器 , 默认显示所以
         this.buttonGroups = options.buttonGroups || [wpsApi.defineEtButtonGroups.btnSaveAsFile, wpsApi.defineEtButtonGroups.btnSaveToServer].toString();
-
         this.add = function () {
             var me = this;
             if (check(me, false)) {
@@ -821,6 +820,7 @@
                 }(),
                 uploadPath: me.fileUploadPath.toString(),
                 userName: me.userName,
+                customExtend: options.customExtend,
             };
             params.docId = me.docId;
             params.fileName = me.fileLoadPath.toString();

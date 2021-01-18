@@ -128,11 +128,12 @@ function pShowRibbonGroupByOADocParam(CtrlID) {
  * @param {*} resp 
  */
 function OnUploadToServerSuccess(resp) {
-    var l_doc = wps.WppApplication().ActivePresentation;
-    if (wps.confirm("正文保存成功，是否关闭正文信息。") == false) {
+    //var l_doc = wps.WppApplication().ActivePresentation; 这个获取关闭文档有问题。
+    if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
         if (l_doc) {
             console.log("OnUploadToServerSuccess: before Close");
-            l_doc.Close(); //保存文档后关闭
+            wps.WppApplication().ActiveWindow.Close();
+            //l_doc.Close(); //保存文档后关闭
             console.log("OnUploadToServerSuccess: after Close");
         }
     }
@@ -234,6 +235,13 @@ function OnBtnSaveToServer() {
     }
 
     var l_DocPath = l_doc.FullName; // 文件所在路径
+
+    // todo-10
+    if (l_uploadPath.startWith("function")) {
+        var data = wps.parameter["customExtend"];
+        data.fileExt = l_UploadName.split(".")[1];
+        l_uploadPath = exeFun(l_uploadPath, wps.parameter["actionId"], data);
+    }
 
     if (pIsOnlineOADoc(l_doc) == false) {
         //对于本地磁盘文件上传OA，先用Save方法保存后，再上传

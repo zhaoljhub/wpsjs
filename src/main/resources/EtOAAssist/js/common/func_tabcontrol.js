@@ -140,7 +140,7 @@ function pShowRibbonGroupByOADocParam(CtrlID) {
  */
 function OnUploadToServerSuccess(resp) {
     var l_doc = wps.EtApplication().ActiveWorkbook;
-    if (wps.confirm("正文保存成功，是否关闭正文信息。") == false) {
+    if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
         if (l_doc) {
             console.log("OnUploadToServerSuccess: before Close");
             l_doc.Close(-1); //保存文档后关闭

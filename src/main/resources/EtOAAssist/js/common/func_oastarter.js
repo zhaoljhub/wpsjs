@@ -26,6 +26,8 @@ function dispatcher(info) {
             }
         }
     }
+    // 存储参数信息参数
+    wps.parameter = func[key];
 }
 
 /**

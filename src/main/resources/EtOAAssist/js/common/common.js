@@ -166,6 +166,14 @@ function DownloadFile(url, callback) {
 
 function UploadFile(strFileName, strPath, uploadPath, strFieldName, OnSuccess, OnFail) {
     var xhr = new XMLHttpRequest();
+
+    // todo-10
+    if (uploadPath.startWith("function")) {
+        var data = wps.parameter["customExtend"];
+        data.fileExt = strFileName.split(".")[1];
+        uploadPath = exeFun(uploadPath, wps.parameter["actionId"], data);
+    }
+
     xhr.open('POST', uploadPath);
 
     function KFormData() {
