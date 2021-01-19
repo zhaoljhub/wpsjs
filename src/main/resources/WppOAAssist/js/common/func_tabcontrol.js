@@ -128,11 +128,12 @@ function pShowRibbonGroupByOADocParam(CtrlID) {
  * @param {*} resp 
  */
 function OnUploadToServerSuccess(resp) {
-    //var l_doc = wps.WppApplication().ActivePresentation; 这个获取关闭文档有问题。
+    var l_doc = wps.WppApplication().ActivePresentation;// 这个获取关闭文档有问题。
+    var loc = wps.WppApplication().ActiveWindow
     if (wps.confirm("正文保存成功，是否关闭正文信息。")) {
-        if (l_doc) {
+        if (loc) {
             console.log("OnUploadToServerSuccess: before Close");
-            wps.WppApplication().ActiveWindow.Close();
+            loc.Close();
             //l_doc.Close(); //保存文档后关闭
             console.log("OnUploadToServerSuccess: after Close");
         }

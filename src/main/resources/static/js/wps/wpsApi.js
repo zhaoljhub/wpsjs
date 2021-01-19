@@ -473,7 +473,7 @@
         if (me.token) {
             for (var index in me) {
                 var temp = me[index];
-                if (typeof temp == "string" && wpsApi.wpsExtend.isHttpUrl(temp)) {
+                if (typeof temp == "string" && wpsApi.wpsExtend.isHttpUrl(temp) && temp.indexOf(me.token.tokenName) == -1) {
                     var number = temp.indexOf("?");
                     // 说明有参数
                     if (number > -1 && temp.length - 1 > number) {
@@ -827,7 +827,11 @@
             if (me.protectType != null) {
                 params.openType = {protectType: me.protectType, password: me.password}
             }
-            info.funcs = [{OpenDoc: params}];
+            if (me.protectType && options.invoke.type == WpsInvoke.ClientType.wpp) {
+                info.funcs = [{OnlineEditDoc: params}];
+            } else {
+                info.funcs = [{OpenDoc: params}];
+            }
             this.exec(info);
             // 执行创建一个消息通知回调 EtOAAssist  WppOAAssist
             // options
@@ -976,6 +980,7 @@
             onlyEditWindow: 2, //只允许修改窗体域(禁止拷贝功能)
             read: 3, //只读
         },
+
         // 部分wps操作控制参数
         wpsInitParams: {
             AutoSaveToServer: false, //是否自动保存通过加载项加载的文件，默认不上传

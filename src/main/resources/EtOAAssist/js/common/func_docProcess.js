@@ -100,7 +100,7 @@ function OpenFile(params) {
     }
 
     pOpenFile(doc, params, l_IsOnlineDoc);
-    
+
     return doc
 }
 
@@ -155,7 +155,7 @@ function OpenOnLineFile(OAParams) {
 
 /**
  * 打开在线文档成功后触发事件
- * @param {*} resp 
+ * @param {*} resp
  */
 function OnOpenOnLineDocSuccess(resp) {
 
@@ -164,17 +164,17 @@ function OnOpenOnLineDocSuccess(resp) {
 
 /**
  * 作用：打开文档处理的各种过程，包含：打开带密码的文档，保护方式打开文档，修订方式打开文档等种种情况
- * params	Object	OA Web端传来的请求JSON字符串，具体参数说明看下面数据
+ * params    Object    OA Web端传来的请求JSON字符串，具体参数说明看下面数据
  * TempLocalFile : 字符串 先把文档从OA系统下载并保存在Temp临时目录，这个参数指已经下载下来的本地文档地址
  * ----------------------以下是OA参数的一些具体规范名称
- * docId	String	文档ID
- * uploadPath	String	保存文档接口
- * fileName	String	获取服务器文档接口（不传即为新建空文档）
- * userName	String	用于更改显示修改人的用户名
- * buttonGroups	string	自定义按钮组 （可不传，不传显示所有按钮）
- * openType	String	文档打开方式 ，不传正常打开
- *      protectType	bool	文档保护类型，false或是未定义为不启用保护，其他为启用
- *      password	String密码
+ * docId    String    文档ID
+ * uploadPath    String    保存文档接口
+ * fileName    String    获取服务器文档接口（不传即为新建空文档）
+ * userName    String    用于更改显示修改人的用户名
+ * buttonGroups    string    自定义按钮组 （可不传，不传显示所有按钮）
+ * openType    String    文档打开方式 ，不传正常打开
+ *      protectType    bool    文档保护类型，false或是未定义为不启用保护，其他为启用
+ *      password    String密码
  */
 function pDoOpenOADocProcess(params, TempLocalFile) {
     var l_ProtectType = false; //默认文档保护类型 0 为不启用保护
@@ -202,6 +202,7 @@ function pDoOpenOADocProcess(params, TempLocalFile) {
     }
 
     var l_Doc;
+
     l_Doc = wps.EtApplication().Workbooks.Open(TempLocalFile, false, false, undefined, l_strDocPassword);
 
     //打开文档后，根据保护类型设置文档保护
@@ -212,15 +213,20 @@ function pDoOpenOADocProcess(params, TempLocalFile) {
 
 /**
  * protectType: '', 文档保护模式
- * @param {*} ProtectPassword 
- * @param {*} doc 
+ * @param {*} ProtectPassword
+ * @param {*} doc
  */
 function SetOADocProtect(doc, ProtectPassword) {
     if (!doc) return; //校验文档是否存在
 
     // 保护文档如果之前有被保护，再次保护会出问题，需要先解除保护
     doc.Unprotect();
-    doc.Protect(ProtectPassword);
+    doc.Protect(ProtectPassword || "workBook@2wsx");
+    // todo 保护所有sheet的编辑权限
+    var num = wps.EtApplication().ActiveWorkbook.Sheets.Count;
+    for (var i = 1; i <= num; i++) {
+        wps.EtApplication().ActiveWorkbook.Sheets.Item(i).Protect(ProtectPassword || "sheet@2wsx");
+    }
     return;
 }
 
@@ -235,7 +241,7 @@ function OnOpenOnLineDocDownFail() {
 
 /**
  * 功能说明：判断是否已存在来自OA的已打开的文档
- * @param {字符串} FileURL 
+ * @param {字符串} FileURL
  */
 function pCheckIsExistOpenOADoc(FileURL) {
     var l_DocCount = wps.EtApplication().Workbooks.Count;
@@ -296,7 +302,7 @@ function pSetOADocumentFlag(doc, params) {
 
 /**
  * 作用：设置Ribbon工具条的按钮显示状态
- * @param {*} paramsGroups 
+ * @param {*} paramsGroups
  */
 function pDoResetRibbonGroups(paramsGroups) {
 
