@@ -84,7 +84,7 @@ function OnDocumentBeforeClose(doc) {
     // 有未保存的数据，确认无需保存直接关闭
     doc.Close(wps.Enum.wdDoNotSaveChanges); // 不保存待定的更改。
     closeWpsIfNoDocument(); // 判断WPS中的文件个数是否为0，若为0则关闭WPS函数
-    wps.FileSystem.Remove(l_fullName);
+    //wps.FileSystem.Remove(l_fullName); 改方法会造成 被下载的文档被删除（btnSaveAsFile按钮）
 }
 
 
