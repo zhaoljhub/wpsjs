@@ -442,7 +442,7 @@
 (function (window, document, $) {
     var fileOpenPlugin = {
         wps: ["doc", "docx", "wps"],
-        et: ["xls", "xlsx"],
+        et: ["xls", "xlsx", "et"],
         wpp: ["ppt", "pptx"],
     }
 
@@ -531,6 +531,10 @@
 
         // 历史版本url页面
         this.fileVersionPagePathUrl = options.fileVersionPagePathUrl || "";
+
+        // 用户签名图片下载地址
+        this.userPicUrlBasePath = options.userPicUrlBasePath || "";
+
         /**
          *
          * @type {*|string}
@@ -678,7 +682,7 @@
                 uploadFieldName: me.uploadFieldName, buttonGroups: me.buttonGroups,
                 customExtend: me.customExtend, dispatcherPrefixFunction: me.dispatcherPrefixFunction.toString(),
                 newOnDoChangeToOtherDocFormat: me.newOnDoChangeToOtherDocFormat, fileInsertObject: me.fileInsertObject,
-                fileVersionPagePathUrl: me.fileVersionPagePathUrl,
+                fileVersionPagePathUrl: me.fileVersionPagePathUrl, userPicUrlBasePath: me.userPicUrlBasePath,
             };
             // 打开关闭修订
             params.revisionCtrl = {bOpenRevision: me.openRevision, bShowRevision: me.openRevision};

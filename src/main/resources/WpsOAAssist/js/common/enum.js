@@ -140,11 +140,13 @@ var constStrEnum = {
     // 新的格式转换保存方法
     newOnDoChangeToOtherDocFormat: "newOnDoChangeToOtherDocFormat",
     // 历史版本加载地址
-    fileVersionPagePathUrl : "fileVersionPagePathUrl",
+    fileVersionPagePathUrl: "fileVersionPagePathUrl",
 
     // 插入文本字段在当前文档中
     // { text : "文本字段"
 
     // }
-    fileInsertObject : "fileInsertObject",
+    fileInsertObject: "fileInsertObject",
+
+    userPicUrlBasePath: "userPicUrlBasePath",
 }

@@ -15,10 +15,10 @@ import java.util.Map;
 
 @Component
 public class CommandRunner implements CommandLineRunner, ApplicationContextAware {
-    @Value("http://127.0.0.1:8080/wpsJs/index")
+    @Value("http://127.0.0.1:8081/wpsJs/index")
     private String url;
 
-    @Value("http://127.0.0.1:8080/static/jsplugins.xml")
+    @Value("http://127.0.0.1:8081/static/jsplugins.xml")
     private String JSPluginsServer;
 
     private ApplicationContext applicationContext;

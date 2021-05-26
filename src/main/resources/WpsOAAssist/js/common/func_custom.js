@@ -223,12 +223,21 @@ function Replace(jsonData) {
                 if (scell.userName != "") {
                     user = scell.userName;
                 }
+                // 填充用户图片，
                 if (scell.userPicUrl != "" && isHttpUrl(scell.userPicUrl)) {
                     var key = "[picture-user" + index2 + "]";
                     var value = scell.userPicUrl;
                     user = key;
                     pictureArr.push({key: key, value: value});
+                }else if(scell.userPicUrl != ""){ // 老版本的是Signature的主键id，兼容一下。
+                    var key = "[picture-user" + index2 + "]";
+                    var value = scell.userPicUrl;
+                    var path = GetDocParamsValue(wps.WpsApplication().ActiveDocument, constStrEnum.userPicUrlBasePath); //插入文件的位置
+                    path = path.bootFormat({id: value} );
+                    user = key;
+                    pictureArr.push({key: key, value: path});
                 }
+
                 if (scell.keyDate != "") {
                     user += "   " + scell.keyDate;
                 }
