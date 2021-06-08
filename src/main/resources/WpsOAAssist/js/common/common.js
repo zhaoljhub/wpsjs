@@ -325,7 +325,7 @@ function DownloadFile(url, callback) {
         }
     }
     // todo 问题1，这个本地方法会将jsplugins.xml中基础路径配置添加到开始生成一个url。变成如下：
-    //  eg:http://127.0.0.1:8080/WpsOAAssist/http//:127.0.0.1:8080/wpsJs/getFile
+    //  eg:http://127.0.0.1:8081/WpsOAAssist/http//:127.0.0.1:8081/wpsJs/getFile
     xhr.open('GET', url);
     xhr.responseType = 'blob';
     xhr.send();

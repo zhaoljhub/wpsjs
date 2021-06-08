@@ -5,6 +5,7 @@
     <title>Title</title>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/wps/wpsApi.js"></script>
+    <script src="/static/js/wps/common.js"></script>
     <script src="/static/highlight/highlight.js"></script>
     <link rel="stylesheet" href="/static/highlight/highlight.css">
     <style>
@@ -86,81 +87,77 @@
 
 
     $(function () {
+
+        // 获取host
+
         $("#refreshWpsPublish").on("click", function () {
-            code(refreshWpsPublish);
-            refreshWpsPublish();
+            code(exe(refreshWpsPublish));
         });
 
         $("#refreshWpsJsplugins").on("click", function () {
-            code(refreshWpsJsplugins);
-            refreshWpsJsplugins();
+            code(exe(refreshWpsJsplugins));
+
         });
 
         $("#editDoc").on("click", function () {
-            code(editWps);
-            editWps();
+            code(exe(editWps));
         });
 
 
         $("#newDoc").on("click", function () {
-            code(newWps);
-            newWps();
+            code(exe(newWps));
         });
         $("#editDoc").on("click", function () {
-            code(editWps);
-            editWps();
+            code(exe(editWps));
         });
         $("#editDocAuto").on("click", function () {
-            code(editWpsAuto);
-            editWpsAuto();
+            code(exe(editWpsAuto));
         });
         $("#editDocWithExit").on("click", function () {
-            code(editDocWithExit);
-            editDocWithExit();
+            code(exe(editDocWithExit));
         });
         $("#viewDoc").on("click", function () {
-            code(viewWps);
-            viewWps();
+            code(exe(viewWps));
+
         });
         $("#editWithCloseButtonDoc").on("click", function () {
-            code(editWithCloseButtonDoc);
-            editWithCloseButtonDoc();
+            code(exe(editWithCloseButtonDoc));
+
         });
 
         $("#tempRedEdit").on("click", function () {
-            code(tempRedEdit);
-            tempRedEdit();
+            code(exe(tempRedEdit));
+
         });
 
         $("#tempRedEdit1").on("click", function () {
-            code(tempRedEdit1);
-            tempRedEdit1();
+            code(exe(tempRedEdit1));
+
         });
 
 
         $("#tempRepEdit").on("click", function () {
-            code(tempRepEdit);
-            tempRepEdit();
+            code(exe(tempRepEdit));
+
         });
 
         $("#tempRepEdit1").on("click", function () {
-            code(tempRepEdit1);
-            tempRepEdit1();
+            code(exe(tempRepEdit1));
+
         });
 
         $("#getState").on("click", function () {
-            code(getState);
-            getState();
+            code(exe(getState));
+
         });
 
         $("#insertText").on("click", function () {
-            code(insertText);
-            insertText();
+            code(exe(insertText));
+
         });
 
         $("#exeFun").on("click", function () {
-            code(exeFun);
-            exeFun();
+            code(exe(exeFun));
         });
 
     });
@@ -388,10 +385,10 @@
                     "keyType": 1 //直接替换
                 }, {
                     "keyName": "流程意见",
-                    "keyValue": "[{\"keyText\":\"1、\",\"keyValue\":\"请xxx批示意见可以长一点，意见可以长一点，意见可以长一点，意见可以长一点，意见可以长一点，\",\"userName\":\"张三\",\"userPicUrl\":null,\"keyDate\":\"2019年8月12日\",\"userPicSize\":0,\"fontSize\":0}," +
+                    "keyValue": "[{\"keyText\":\"1、\",\"keyValue\":\"请xxx批示意见可以长一点，意见可以长一点，意见可以长一点，意见可以长一点，意见可以长一点，\",\"userName\":\"张三\",\"userPicUrl\":\"http://127.0.0.1:8081/WpsOAAssist/icon/w_DocClound.png\",\"keyDate\":\"2019年8月12日\",\"userPicSize\":0,\"fontSize\":0}," +
                         "{\"keyText\":\"2、\",\"keyValue\":\"请xxx指示,意见可以长一点，\",\"userName\":\"李四\",\"userPicUrl\":null,\"keyDate\":\"2019-8-12 14:20:24\",\"userPicSize\":0,\"fontSize\":0}," +
-                        "{\"keyText\":\"3、\",\"keyValue\":\"http://127.0.0.1:8081/WpsOAAssist/icon/c_bookmark.png\",\"userName\":\"尼古拉-赵四\",\"userPicUrl\":null,\"keyDate\":\"2019年8月12日 14:20:24\",\"userPicSize\":0,\"fontSize\":0}," +
-                        "{\"keyText\":\"4、\",\"keyValue\":\"请xxx批复一下,意见可以长一点，意见可以长一点，意见可以长一点，意见可以长一点，\",\"userName\":\"杰神\",\"userPicUrl\":null,\"keyDate\":\"2019年8月12日 14:20:24\",\"userPicSize\":0,\"fontSize\":0}," +
+                        "{\"keyText\":\"3、\",\"keyValue\":\"http://127.0.0.1:8081/WpsOAAssist/icon/c_bookmark.png\",\"userName\":\"尼古拉-赵四\",\"userPicUrl\":\"http://127.0.0.1:8081/WpsOAAssist/icon/w_BackDoc.png\",\"keyDate\":\"2019年8月12日 14:20:24\",\"userPicSize\":0,\"fontSize\":0}," +
+                        "{\"keyText\":\"4、\",\"keyValue\":\"请xxx批复一下,意见可以长一点，意见可以长一点，意见可以长一点，意见可以长一点，\",\"userName\":\"杰神\",\"userPicUrl\":\"http://127.0.0.1:8081/WpsOAAssist/icon/c_seal.png\",\"keyDate\":\"2019年8月12日 14:20:24\",\"userPicSize\":0,\"fontSize\":0}," +
                         "{\"keyText\":\"5、\",\"keyValue\":\"http://127.0.0.1:8081/WpsOAAssist/icon/c_bookmark.png\",\"userName\":\"王五\",\"userPicUrl\":\"http://127.0.0.1:8081/WpsOAAssist/icon/c_bookmark.png\",\"keyDate\":\"2019年8月12日 14:20:24\",\"userPicSize\":0,\"fontSize\":0}]",
                     "keyType": 2 // json字串带格式的替换
                 },

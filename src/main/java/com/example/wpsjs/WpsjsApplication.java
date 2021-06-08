@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WpsjsApplication {
 
     /**
-     * http://127.0.0.1:8080/wpsJs/test
-     * http://127.0.0.1:8080/wpsJs/index
+     * http://127.0.0.1:8081/wpsJs/test
+     * http://127.0.0.1:8081/wpsJs/index
      *
-     * JSPluginsServer=http://127.0.0.1:8080/static/jsplugins.xml
+     * JSPluginsServer=http://127.0.0.1:8081/static/jsplugins.xml
      * JSPluginsServer=http://127.0.0.1:3888/jsplugins.xml
      *
      * @param args

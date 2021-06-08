@@ -5,6 +5,7 @@
     <title>Title</title>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/wps/wpsApi.js"></script>
+    <script src="/static/js/wps/common.js"></script>
     <script src="/static/highlight/highlight.js"></script>
     <link rel="stylesheet" href="/static/highlight/highlight.css">
     <style>
@@ -30,10 +31,11 @@
 <body>
 <div class="div0">
     <div class="div1">
-        <a id="wps" target="_blank" href="http://127.0.0.1:8080/wpsJs/page/wpsIndex">wps</a><br>
-        <a id="excel" target="_blank" href="http://127.0.0.1:8080/wpsJs/page/etIndex">excel</a><br>
-        <a id="ppt" target="_blank" href="http://127.0.0.1:8080/wpsJs/page/wppIndex">ppt</a><br>
+        <a id="wps" target="_blank" onclick="load('http://127.0.0.1:8081/wpsJs/page/wpsIndex')">wps</a><br>
+        <a id="excel" target="_blank" href="http://127.0.0.1:8081/wpsJs/page/etIndex">excel</a><br>
+        <a id="ppt" target="_blank" href="http://127.0.0.1:8081/wpsJs/page/wppIndex">ppt</a><br>
     </div>
+
 </div>
 </body>
 </html>

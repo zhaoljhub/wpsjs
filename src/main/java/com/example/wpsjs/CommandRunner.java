@@ -21,6 +21,8 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
     @Value("http://127.0.0.1:8081/static/jsplugins.xml")
     private String JSPluginsServer;
 
+
+
     private ApplicationContext applicationContext;
 
     private boolean isWin;
@@ -33,12 +35,12 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
     @Override
     public void run(String... args) throws Exception {
         Environment environment = applicationContext.getEnvironment();
-        String os = environment.getProperty( "os" );
-        isWin = os != null && os.startsWith( "Win" );
+        String os = environment.getProperty("os");
+        isWin = os != null && os.startsWith("Win");
         //changeOem(  );
         //restartWps(  );
         openExplorer();
-        System.out.println( " 执行成功 ，打开目录地址 ：" + url );
+        System.out.println(" 执行成功 ，打开目录地址 ：" + url);
     }
 
 
@@ -50,9 +52,9 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
                 Runtime run = Runtime.getRuntime();
                 String cmd = "REG QUERY HKEY_CLASSES_ROOT\\KWPS.Document.12\\shell\\open\\command /ve";
                 //测试
-                Process exec = run.exec( cmd );
+                Process exec = run.exec(cmd);
                 InputStream is = exec.getInputStream();
-                BufferedReader reader = new BufferedReader( new InputStreamReader( is ) );
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
                 String std = "";
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -65,23 +67,23 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
 
                 if (std != "") {
                     //path = D:\Program Files (x86)\Kingsoft\WPS Office\11.8.2.8808\office6\wps.exe
-                    String path = std.split( "    " )[3].split( "\"" )[1];
-                    File file = new File( path );
+                    String path = std.split("    ")[3].split("\"")[1];
+                    File file = new File(path);
                     if (!file.exists()) {
-                        throw new Exception( "WSP安装异常，请确认有没有正确的安装WPS2019" );
+                        throw new Exception("WSP安装异常，请确认有没有正确的安装WPS2019");
                     }
-                    oemPath = path.replace( "wps.exe", "" ) + "\\cfgs\\oem.ini";
+                    oemPath = path.replace("wps.exe", "") + "\\cfgs\\oem.ini";
                 }
             } else {
                 oemPath = "/opt/kingsoft/wps-office/office6/cfgs/oem.ini";
             }
             if (oemPath != null) {
-                Wini wini = new Wini( new File( oemPath ) );
-                String result = wini.put( "Server", "JSPluginsServer", JSPluginsServer );
+                Wini wini = new Wini(new File(oemPath));
+                String result = wini.put("Server", "JSPluginsServer", JSPluginsServer);
                 wini.store();
-                System.out.println( "执行初始化oem.ini的JSPluginsServer更新成功===>" + result + "     path:" + oemPath );
+                System.out.println("执行初始化oem.ini的JSPluginsServer更新成功===>" + result + "     path:" + oemPath);
             } else {
-                throw new Exception( "未找到正确配置" );
+                throw new Exception("未找到正确配置");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +98,7 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
         try {
             //测试
             if (isWin) {
-                run.exec( cmd );
+                run.exec(cmd);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,8 +109,8 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
         if (!isWin) {
             try {
                 Runtime run = Runtime.getRuntime();
-                run.exec( "quickstartoffice restart" );
-                System.out.println( "成功执行 quickstartoffice restart 重启wps。" );
+                run.exec("quickstartoffice restart");
+                System.out.println("成功执行 quickstartoffice restart 重启wps。");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -116,15 +118,15 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
     }
 
     public static Map<String, String> resolveString(String filePath) {
-        File jsonFile = new File( filePath );
+        File jsonFile = new File(filePath);
         StringBuffer str = new StringBuffer();
         HashMap<String, String> map = new HashMap<>();
         try {
-            BufferedReader reader = new BufferedReader( new FileReader( jsonFile ) );
-            String read ;
+            BufferedReader reader = new BufferedReader(new FileReader(jsonFile));
+            String read;
             while ((read = reader.readLine()) != null) {
-                if (!read.equals( "" )) {
-                    map.put( read.split( "=" )[0].trim(), read.split( "=" )[1].trim() );
+                if (!read.equals("")) {
+                    map.put(read.split("=")[0].trim(), read.split("=")[1].trim());
                 }
             }
         } catch (
@@ -134,8 +136,10 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
         return map;
     }
 
+
+
     public static void main(String[] args) throws IOException {
-        Map<String, String> stringStringMap = resolveString( "C:\\Users\\zhaolangjing\\Desktop\\说明文件.txt" );
-        System.out.println( stringStringMap );
+        Map<String, String> stringStringMap = resolveString("C:\\Users\\zhaolangjing\\Desktop\\说明文件.txt");
+        System.out.println(stringStringMap);
     }
 }

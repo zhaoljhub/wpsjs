@@ -5,6 +5,7 @@
     <title>Title</title>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/wps/wpsApi.js"></script>
+    <script src="/static/js/wps/common.js"></script>
     <script src="/static/highlight/highlight.js"></script>
     <link rel="stylesheet" href="/static/highlight/highlight.css">
     <style>
@@ -31,7 +32,7 @@
 <div class="div0">
     <div class="div1">
         <div>
-            <p style="font-size: x-large;"><a href="http://127.0.0.1:8080/md/wpsjs">hello wps加载项 </a></p>
+            <p style="font-size: x-large;"><a href="http://127.0.0.1:8081/md/wpsjs">hello wps加载项 </a></p>
         </div>
         <a id="refreshWpsPublish" href="javascript:void(0)">通过刷新wps的publish.xml刷新加载项</a><br>
         <a id="refreshWpsJsplugins" href="javascript:void(0)">通过刷新wps的jsplugins.xml刷新加载项</a>
@@ -94,7 +95,7 @@
                 online: true,  // 在线离线 ，默认在线 , 可不传
                 name: "WppOAAssist", // 插件名,可默认不传
                 type: "wpp", // wps类型 ， 可用默认不传
-                url: "http://127.0.0.1:8080/WppOAAssist/", //加载url的地址 ， 必传
+                url: "http://127.0.0.1:8081/WppOAAssist/", //加载url的地址 ， 必传
                 cmd: "enable", //"enable", 启用， "disable", 禁用, "disableall", 禁用所有
                 callback: function (res) {
                     $("#webnotifyspan").text("更新(et)publish.xml文件结果：" + JSON.stringify(res));
@@ -108,7 +109,7 @@
         wpsApi.wpp({
             docId: "123",
             userName: "测试人员",
-            fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test",
+            fileUploadPath: "http://127.0.0.1:8081/wpsJs/saveFile/test",
         }).add();
     }
 
@@ -116,8 +117,8 @@
         wpsApi.wpp({
             docId: "123",
             userName: "测试人员",
-            fileUploadPath: "http://127.0.0.1:8080/wpsJs/saveFile/test",
-            fileLoadPath: "http://127.0.0.1:8080/wpsJs/getFile/test.pptx",  // 文件加载地址，不传就是新建文件
+            fileUploadPath: "http://127.0.0.1:8081/wpsJs/saveFile/test",
+            fileLoadPath: "http://127.0.0.1:8081/wpsJs/getFile/test.pptx",  // 文件加载地址，不传就是新建文件
         }).edit();
     }
 
@@ -125,7 +126,7 @@
         wpsApi.wpp({
             docId: "123",
             userName: "测试人员",
-            fileLoadPath: "http://127.0.0.1:8080/wpsJs/getFile/test.pptx",  // 文件加载地址，不传就是新建文件
+            fileLoadPath: "http://127.0.0.1:8081/wpsJs/getFile/test.pptx",  // 文件加载地址，不传就是新建文件
         }).view();
     }
 </script>

@@ -1,9 +1,9 @@
 <!-- WPS加载项配置信息，在线和离线只有一个生效，不可同时存在 -->
 <!-- WPS加载项：在线模式配置	Start -->
 <jsplugins>
-    <jspluginonline name="WpsOAAssist" type="wps" url="http://127.0.0.1:8080/WpsOAAssist"/>
-    <jspluginonline name="EtOAAssist" type="et" url="http://127.0.0.1:8080/EtOAAssist"/>
-    <jspluginonline name="WppOAAssist" type="wpp" url="http://127.0.0.1:8080/WppOAAssist"/>
+    <jspluginonline name="WpsOAAssist" type="wps" url="http://127.0.0.1:8081/WpsOAAssist"/>
+    <jspluginonline name="EtOAAssist" type="et" url="http://127.0.0.1:8081/EtOAAssist"/>
+    <jspluginonline name="WppOAAssist" type="wpp" url="http://127.0.0.1:8081/WppOAAssist"/>
 </jsplugins>
         <!-- WPS加载项：在线模式配置	End -->
 
