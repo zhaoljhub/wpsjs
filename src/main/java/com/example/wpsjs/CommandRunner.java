@@ -22,7 +22,7 @@ public class CommandRunner implements CommandLineRunner, ApplicationContextAware
     private String JSPluginsServer;
 
 
-
+    //
     private ApplicationContext applicationContext;
 
     private boolean isWin;
